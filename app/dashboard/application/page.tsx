@@ -1,4 +1,47 @@
+'use client';
+import {FormEvent} from 'react';
+
 export default function Page() {
+    const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+
+        const getValue = (name: string) => {
+            const field = form.elements.namedItem(name) as HTMLInputElement | null;
+            return field?.value || ''
+        }
+        const formData = {
+            clubname: getValue('clubname'),
+            studentname: getValue('studentname'),
+            studentemail: getValue('studentemail'),
+            sponsorname: getValue('sponsorname'),
+            sponsoremail: getValue('sponsoremail'),
+            description: getValue('description'),
+            meetinloc: getValue('clubname'),
+            addinfo: getValue('clubname'),
+
+        };
+
+        try{
+            const res = await fetch('/api/submit', {
+                method: 'POST',
+                headers: {'Content-Type': 'applicaiton/json'},
+                body: JSON.stringify(formData),
+            })
+            if(res.ok) {
+                alert('Form Submission Success!');
+                form.reset();
+            }
+            else{
+                const error = await res.json();
+                alert(`Error: ${error.error || 'Something went wrong!'}`);
+            }
+        }
+        catch(error) {
+            console.error('Submision failed', error);
+            alert('An error occurred.');
+        }
+    };
     return (
         <div className='ml-[35px]'>
             <div className='text-[25px] font-semibold mt-[25px]'>New Club Application Form</div>
@@ -12,21 +55,26 @@ export default function Page() {
             </div>
             <form>
                 <h1>Club Name*</h1>
-                 <input id="clubname" type="clubname" placeholder="Enter the name of the club (no acronyms/abbreviations)"></input>
+                 <input id="clubname" name="clubname" placeholder="Enter the name of the club (no acronyms/abbreviations)"></input>
                 <h1>Student Requesting Approval (Point of Contact)*</h1>
-                 <input id="studentname" type="studentname" placeholder="Enter your full name (ex. John Poole)"></input>
+                 <input id="studentname" name="studentname" placeholder="Enter your full name (ex. John Poole)"></input>
                  <h1>Student Email*</h1>
-                 <input id="studentemail" type="studentemail" placeholder="Enter your MCPS email (@mcpsmd.net)"></input>
+                 <input id="studentemail" name="studentemail" placeholder="Enter your MCPS email (@mcpsmd.net)"></input>
                  <h1>Club Sponsor's Name (First and Last)*</h1>
-                 <input id="sponsorname" type="sponsorname" placeholder="Enter the club sponsor's full name"></input>
+                 <input id="sponsorname" name="sponsorname" placeholder="Enter the club sponsor's full name"></input>
                  <h1>Club Sponsor's Email*</h1>
-                 <input id="sponsoremail" type="sponsoremail" placeholder="Enter the club sponsor's MCPS email (@mcpsmd.net)"></input>
+                 <input id="sponsoremail" name="sponsoremail" placeholder="Enter the club sponsor's MCPS email (@mcpsmd.net)"></input>
                  <h1>Purpose/Description of the Club*</h1>
-                 <input className='py-12' id="purpose" type="purpose" placeholder="Enter a short description of your club"></input>
+                 <input className='py-12' id="description" name="description" placeholder="Enter a short description of your club"></input>
                  <h1>Meeting Location*</h1>
-                 <input id="meetingloc" type="meetingloc" placeholder="Enter club meeting location (ex. Room 1000)"></input>
+                 <input id="meetingloc" name="meetingloc" placeholder="Enter club meeting location (ex. Room 1000)"></input>
                  <h1>Additional Information (Website, Social Media, etc.)</h1>
-                 <input className='mb-[30px]' id="addinfo" type="addinfo" placeholder="Additional information (optional)"></input>
+                 <input className='mb-[30px]' id="addinfo" name="addinfo" placeholder="Additional information (optional)"></input>
+                 <div className="w-[60vw] mt-6 flex justify-center">
+                 <button type="submit" className="flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 px-6 py-4 text-sm font-medium hover:bg-yellow-200">
+                    Submit
+                 </button>
+                 </div>
             </form>
         </div>
     );
