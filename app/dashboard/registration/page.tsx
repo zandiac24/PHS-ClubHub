@@ -6,6 +6,8 @@ export default function Page() {
             <form>
                 <h1>Student Full Name</h1>
                  <input id="studentname" type="studentname" placeholder="Enter your full name (ex. John Poole)"></input>
+                 <h1>Student Email Address</h1>
+                 <input id="studentemail" type="studentemail" placeholder="Enter your MCPS email (@mcpsmd.net)"></input>
             </form>
         </div>
     );
