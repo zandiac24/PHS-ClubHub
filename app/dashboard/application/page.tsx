@@ -1,5 +1,6 @@
 'use client';
 import {FormEvent} from 'react';
+import CategoryDropdown from '@/app/ui/dashboard/cat-options'
 
 export default function Page() {
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
@@ -65,8 +66,10 @@ export default function Page() {
                  <input id="studentemail" name="studentemail" placeholder="Enter your MCPS email (@mcpsmd.net)"></input>
                  <h1>Purpose/Description of the Club*</h1>
                  <input className='py-12' id="description" name="description" placeholder="Enter a short description of your club"></input>
-                 <h1>Category*</h1>
-                 <input id="category" name="category" placeholder="Enter the category of your club"></input>
+                 <h1>Category (Pick the One that Fits Best)*</h1>
+                 <CategoryDropdown />
+                 {/* <h1>Category*</h1>
+                 <input id="category" name="category" placeholder="Enter the category of your club"></input> */}
                  <h1>Club Sponsor's Name (First and Last)*</h1>
                  <input id="sponsorname" name="sponsorname" placeholder="Enter the club sponsor's full name"></input>
                  <h1>Club Sponsor's Email*</h1>
