@@ -11,21 +11,24 @@ export default function Page() {
             return field?.value || ''
         }
         const formData = {
-            clubname: getValue('clubname'),
-            studentname: getValue('studentname'),
-            studentemail: getValue('studentemail'),
-            sponsorname: getValue('sponsorname'),
-            sponsoremail: getValue('sponsoremail'),
+            club_name: getValue('clubname'),
+            studentName: getValue('studentname'),
+            studentEmail: getValue('studentemail'),
             description: getValue('description'),
-            meetinloc: getValue('clubname'),
-            addinfo: getValue('clubname'),
+            category: getValue('category'),
+            contactName: getValue('sponsorname'),
+            contactEmail: getValue('sponsoremail'),
+            meeting_days_time: getValue('meetingdates'),
+            meeting_location: getValue('meetingloc'),
+            additional_info: getValue('addinfo'),
+            status: 'pending',
 
         };
 
         try{
-            const res = await fetch('/api/submit', {
+            const res = await fetch('/api/clubs', {
                 method: 'POST',
-                headers: {'Content-Type': 'applicaiton/json'},
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData),
             })
             if(res.ok) {
@@ -53,19 +56,23 @@ export default function Page() {
                 <div className='ml-[18px] mb-[10px]'>to let them know the club has been approved.</div>
                 <div className='mt-[10px] mb-[10px]'>4. The club sponsor will email the Financial Specialist, Mr. Nathaniel Gordon, to establish an account if applicable.</div>  
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <h1>Club Name*</h1>
                  <input id="clubname" name="clubname" placeholder="Enter the name of the club (no acronyms/abbreviations)"></input>
                 <h1>Student Requesting Approval (Point of Contact)*</h1>
                  <input id="studentname" name="studentname" placeholder="Enter your full name (ex. John Poole)"></input>
                  <h1>Student Email*</h1>
                  <input id="studentemail" name="studentemail" placeholder="Enter your MCPS email (@mcpsmd.net)"></input>
+                 <h1>Purpose/Description of the Club*</h1>
+                 <input className='py-12' id="description" name="description" placeholder="Enter a short description of your club"></input>
+                 <h1>Category*</h1>
+                 <input id="category" name="category" placeholder="Enter the category of your club"></input>
                  <h1>Club Sponsor's Name (First and Last)*</h1>
                  <input id="sponsorname" name="sponsorname" placeholder="Enter the club sponsor's full name"></input>
                  <h1>Club Sponsor's Email*</h1>
                  <input id="sponsoremail" name="sponsoremail" placeholder="Enter the club sponsor's MCPS email (@mcpsmd.net)"></input>
-                 <h1>Purpose/Description of the Club*</h1>
-                 <input className='py-12' id="description" name="description" placeholder="Enter a short description of your club"></input>
+                 <h1>Meeting Day(s) and Times*</h1>
+                 <input id="meetingdates" name="meetingdates" placeholder="Enter the meeting dates/times (ex. Monday and Thursday at Lunch)"></input>
                  <h1>Meeting Location*</h1>
                  <input id="meetingloc" name="meetingloc" placeholder="Enter club meeting location (ex. Room 1000)"></input>
                  <h1>Additional Information (Website, Social Media, etc.)</h1>
