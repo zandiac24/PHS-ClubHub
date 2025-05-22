@@ -1,10 +1,13 @@
 'use client';
 import {FormEvent} from 'react';
+import { useRef } from 'react';
 import CategoryDropdown from '@/app/ui/dashboard/cat-options'
 
 export default function Page() {
+    const dropdownRef = useRef<{ getSelectedCategory: () => string }>(null);
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const selected = dropdownRef.current?.getSelectedCategory();
         const form = e.currentTarget;
 
         const getValue = (name: string) => {
@@ -16,7 +19,7 @@ export default function Page() {
             studentName: getValue('studentname'),
             studentEmail: getValue('studentemail'),
             description: getValue('description'),
-            category: getValue('category'),
+            category: selected,
             contactName: getValue('sponsorname'),
             contactEmail: getValue('sponsoremail'),
             meeting_days_time: getValue('meetingdates'),
@@ -67,7 +70,7 @@ export default function Page() {
                  <h1>Purpose/Description of the Club*</h1>
                  <input className='py-12' id="description" name="description" placeholder="Enter a short description of your club"></input>
                  <h1>Category (Pick the One that Fits Best)*</h1>
-                 <CategoryDropdown />
+                 <CategoryDropdown ref={dropdownRef}/>
                  {/* <h1>Category*</h1>
                  <input id="category" name="category" placeholder="Enter the category of your club"></input> */}
                  <h1>Club Sponsor's Name (First and Last)*</h1>

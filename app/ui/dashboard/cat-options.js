@@ -1,8 +1,9 @@
+// CategoryDropdown.js
 'use client'
-import { useState } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
-export default function Dropdown() {
+const CategoryDropdown = forwardRef((props, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('Select Category');
 
@@ -16,6 +17,10 @@ export default function Dropdown() {
         setSelectedCategory(category);
         setIsOpen(false);
     };
+
+    useImperativeHandle(ref, () => ({
+        getSelectedCategory: () => selectedCategory,
+    }));
 
     return (
         <div className="flex">
@@ -53,4 +58,6 @@ export default function Dropdown() {
             </div>
         </div>
     );
-}
+});
+
+export default CategoryDropdown;
