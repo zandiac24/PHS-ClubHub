@@ -15,7 +15,7 @@ const links = [
   { name: 'Logic', href: '/dashboard/club-directory/logic'},
   { name: 'Leadership', href: '/dashboard/club-directory/leadership'},
   { name: 'Non-Varsity Sports/Fitness', href: '/dashboard/club-directory/sports-fitness'},
-  { name: 'Science/Tech', href: '/dashboard/club-directory/science-tech'},
+  { name: 'Science & Technology', href: '/dashboard/club-directory/science-tech'},
 ];
 
 
