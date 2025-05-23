@@ -8,7 +8,7 @@ export default function SideNav() {
     <div className="flex h-full flex-col px-3 py-0 md:px-2">
       <Link
         className="mb-2 flex h-20 items-end justify-start rounded-md bg-yellow-400 p-4 md:h-40"
-        href="/dashboard"
+        href="/dashboard/club-directory"
       >
         <div className="w-32 text-white md:w-40">
           <ClubHubLogo />

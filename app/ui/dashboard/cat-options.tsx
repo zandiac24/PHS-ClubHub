@@ -3,7 +3,18 @@
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
-const CategoryDropdown = forwardRef((props, ref) => {
+type CategoryDropdownProps = {
+  onChange?: (category: string) => void;
+};
+
+type RefType = {
+  getSelectedCategory: () => string;
+};
+
+
+const CategoryDropdown = forwardRef<RefType, CategoryDropdownProps>((props, ref) => {
+    const{ onChange } = props;
+    
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('Select Category');
 
@@ -13,9 +24,10 @@ const CategoryDropdown = forwardRef((props, ref) => {
         setIsOpen(!isOpen);
     };
 
-    const handleSelect = (category) => {
+    const handleSelect = (category: string) => {
         setSelectedCategory(category);
         setIsOpen(false);
+        if (onChange) onChange(category);
     };
 
     useImperativeHandle(ref, () => ({
