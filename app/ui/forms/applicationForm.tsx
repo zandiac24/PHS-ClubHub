@@ -3,7 +3,7 @@ import React from 'react';
 import {useRef} from 'react';
 import {Formik, Form, Field, ErrorMessage, FormikHelpers} from 'formik';
 import * as yup from "yup";
-import CategoryDropdown from '@/app/ui/dashboard/cat-options'
+import CategoryDropdown from '@/app/ui/dropdowns/category-dropdown'
 
 
 interface FormValues {

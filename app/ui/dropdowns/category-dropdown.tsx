@@ -18,7 +18,7 @@ const CategoryDropdown = forwardRef<RefType, CategoryDropdownProps>((props, ref)
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('Select Category');
 
-    const categories = ['Activism', 'Arts', 'Business', 'Culture/Identity', 'Community Service', 'Hobbies', 'Honor Societies', 'Leadership', 'Logic', 'Non-Varsity Sports/Fitness', 'Science/Tech'];
+    const categories = ['Activism', 'Arts', 'Business', 'Community Service', 'Culture/Identity', 'Hobbies & Games', 'Honor Societies', 'Language', 'Leadership', 'Logic', 'Non-Varsity Sports/Fitness', 'Science/Tech'];
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
