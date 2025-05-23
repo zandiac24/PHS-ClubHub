@@ -12,3 +12,15 @@ export type Club = {
     meeting_location: number;
     additional_info: string;
 };
+export type Revenue = {
+    club_name: string;
+    // studentName: string;
+    // studentEmail: string;
+    description: string;
+    // category: string;
+    contactName: string;
+    contactEmail: string;
+    meeting_days_time: string;
+    meeting_location: number;
+    additional_info: string;
+};
