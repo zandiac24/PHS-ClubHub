@@ -23,7 +23,8 @@ const validationChecks = yup.object({
     club_name: yup.string().required("Please enter the club name."),
     studentName: yup.string().required("Please enter the student point of contact's full name."),
     studentEmail: yup.string().email("Please enter a valid email.").required("Please enter the student point of contact's email."),
-    description: yup.string().required("Please enter a short description of the club."),
+    description: yup.string().required("Please enter a short description of the club.")
+    .test('len', 'Please enter a description that is 300 characters or less.', val => val.length <= 300),
     category: yup.string().required("Please select a category."),
     contactName: yup.string().required("Please enter the club sponsor's name.")
     .test(
@@ -60,7 +61,7 @@ const AppForm: React.FC = () => {
         values: FormValues,
         {setSubmitting, resetForm}: FormikHelpers<FormValues>
     ) => {
-            const category = dropdownRef.current?.getSelectedCategory() || '';
+            const category = dropdownRef.current?.getSelectedCategory().toLowerCase() || '';
             const payload = {
             ...values,
             category,
@@ -120,7 +121,7 @@ const AppForm: React.FC = () => {
                         <ErrorMessage name="studentEmail" component="div" className="text-red-500"/>
                         
                         <h1>Purpose/Description of the Club*</h1>
-                        <Field className='py-12' name="description" placeholder="Enter a short description of your club"/>
+                        <Field className='py-12' name="description" placeholder="Enter a short description of your club (300 characters or less)"/>
                         <ErrorMessage name="description" component="div" className="text-red-500"/>
                         
                         <h1>Category (Pick the One that Fits Best)*</h1>

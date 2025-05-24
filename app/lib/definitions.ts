@@ -2,8 +2,8 @@
 
 export type Club = {
     club_name: string;
-    // studentName: string;
-    // studentEmail: string;
+    studentName: string;
+    studentEmail: string;
     description: string;
     // category: string;
     contactName: string;
@@ -14,8 +14,8 @@ export type Club = {
 };
 export type Revenue = {
     club_name: string;
-    // studentName: string;
-    // studentEmail: string;
+    studentName: string;
+    studentEmail: string;
     description: string;
     // category: string;
     contactName: string;

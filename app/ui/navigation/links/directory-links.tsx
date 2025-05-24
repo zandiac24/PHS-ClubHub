@@ -16,6 +16,7 @@ const links = [
   { name: 'Leadership', href: '/dashboard/club-directory/leadership'},
   { name: 'Non-Varsity Sports/Fitness', href: '/dashboard/club-directory/sports-fitness'},
   { name: 'Science & Technology', href: '/dashboard/club-directory/science-tech'},
+   { name: 'Social Studies', href: '/dashboard/club-directory/social-studies'},
 ];
 
 

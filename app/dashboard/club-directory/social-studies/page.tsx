@@ -5,9 +5,9 @@ export const dynamic = 'force-dynamic';
 export default async function Page() {
     return (
         <div className='ml-[35px]'>
-            <h1 className='text-[25px] font-semibold mt-[25px] mb-[30px]'>Honor Societies</h1>
+            <h1 className='text-[25px] font-semibold mt-[25px] mb-[30px]'>Social Studies Clubs</h1>
             <div>
-                    <ClubList cat="honor societies" />
+                    <ClubList cat="social studies" />
             </div>
         </div>
     );

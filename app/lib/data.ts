@@ -12,7 +12,9 @@ const sql = postgres(process.env.POSTGRES_URL!, {
 export async function fetchClubs(cat: string) {
   try {
     const data = await sql<Club[]>`
-      SELECT club_name, description, 
+      SELECT club_name, description,
+      studentName AS "studentName",
+      studentEmail AS "studentEmail", 
       contactName AS "contactName",
       contactEmail AS "contactEmail",
       meeting_days_time, meeting_location, additional_info, status
