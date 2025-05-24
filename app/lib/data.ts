@@ -4,8 +4,10 @@ import postgres from 'postgres';
 import {
   Club,
 } from './definitions';
-
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+const sql = postgres(process.env.POSTGRES_URL!, {
+  ssl: 'require',
+  prepare: false,
+});
 
 export async function fetchClubs(cat: string) {
   try {
