@@ -17,7 +17,7 @@ export async function fetchClubs(cat: string) {
       contactEmail AS "contactEmail",
       meeting_days_time, meeting_location, additional_info
       FROM club_list
-      WHERE category = ${cat}
+      WHERE category = ${cat} AND status = approved
       ORDER BY club_name ASC`;
     //console.log(data); for debugging
     const clubList = data.map((club) => ({
