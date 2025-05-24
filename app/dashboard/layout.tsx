@@ -8,8 +8,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <SideNav />
       </div>
       <div className="flex-grow md:overflow-y-auto">
-        <div className="inline block flex-col mt:0px">
-                <Image src="/headerImage.png" alt="clubhub header" width={1400} height={300} />
+        <div className="inline block flex-col mt:0px w-[100vw] h-[30vh]">
+          <Image
+                  key="clubhub header"
+                  src="/headerImage.png"
+                  alt="ClubHub Header Image"
+                  objectFit="contain"
+                  height={300}
+                  width={1400}
+                  className="w-[100vw] h-[60vh]"
+                ></Image>
+
                 
         </div>
         {children}

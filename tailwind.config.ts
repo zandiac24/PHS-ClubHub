@@ -20,7 +20,9 @@ const config: Config = {
         yellow: {
           100: '#dbd7bf',
           200: '#bcb7b1',
+          300: '#fdfaef',
           400: '#99947d',
+          500: '#e8e3db',
           700: '#33312a',
         }
       },

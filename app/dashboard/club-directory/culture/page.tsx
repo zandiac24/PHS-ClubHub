@@ -4,9 +4,9 @@ import ClubList from '@/app/ui/dashboard/club-cards';
 export default async function Page() {
     return (
         <div className='ml-[35px]'>
-            <h1 className='text-[25px] font-semibold mt-[25px] mb-[30px]'>Science and Technology Clubs</h1>
+            <h1 className='text-[25px] font-semibold mt-[25px] mb-[30px]'>Culture & Identity Clubs</h1>
             <div>
-                    <ClubList cat="science/tech" />
+                    <ClubList cat="culture/identity" />
             </div>
         </div>
     );
