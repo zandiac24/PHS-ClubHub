@@ -58,37 +58,58 @@ const AppForm: React.FC = () => {
     };
    
     const handleSubmit = async (
-        values: FormValues,
-        {setSubmitting, resetForm}: FormikHelpers<FormValues>
-    ) => {
-            const category = dropdownRef.current?.getSelectedCategory().toLowerCase() || '';
-            const payload = {
-            ...values,
-            category,
-            status: 'pending',
-         };
-
-    try {
-      const res = await fetch('/api/clubs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (res.ok) {
-        alert('Form submitted successfully!');
-        resetForm();
-      } else {
-        const error = await res.json();
-        alert(`Error: ${error.message || 'Submission failed.'}`);
-      }
-    } catch (err) {
-      console.error('Submission error:', err);
-      alert('An unexpected error occurred.');
-    } finally {
-      setSubmitting(false);
-    }
+  values: FormValues,
+  { setSubmitting, resetForm }: FormikHelpers<FormValues>
+) => {
+  const category = dropdownRef.current?.getSelectedCategory().toLowerCase() || '';
+  const payload = {
+    ...values,
+    category,
+    status: 'pending',
   };
+
+  try {
+    // First: Save to Clubs API
+    const res = await fetch('/api/clubs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      alert(`Error: ${error.message || 'Submission to Clubs API failed.'}`);
+      return; 
+    }
+
+    // Next: Send Email Notification
+    const emailResponse = await fetch('/api/sendEmail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!emailResponse.ok) {
+      const error = await emailResponse.json();
+      console.error('Email error:', error);
+      alert(`Warning: Club saved, but email failed to send. (${error.message || 'Unknown error'})`);
+    } else {
+      console.log("Email Sent!");
+    }
+
+    // Only reset form after both succeed (or if email fails gracefully)
+    alert('Form submitted successfully!');
+    resetForm();
+  } catch (err) {
+    console.error('Submission error:', err);
+    alert('An unexpected error occurred.');
+  } finally {
+    setSubmitting(false);
+  }
+};
+
 
     return (
         <div className='ml-[35px]'>
