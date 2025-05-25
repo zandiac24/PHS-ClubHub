@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 export const dynamic = 'force-dynamic';
 import {fetchClubs} from '@/app/lib/data';
 import Link from 'next/link'

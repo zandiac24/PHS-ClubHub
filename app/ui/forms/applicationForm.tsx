@@ -69,7 +69,6 @@ const AppForm: React.FC = () => {
   };
 
   try {
-    // First: Save to Clubs API
     const res = await fetch('/api/clubs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -82,7 +81,6 @@ const AppForm: React.FC = () => {
       return; 
     }
 
-    // Next: Send Email Notification
     const emailResponse = await fetch('/api/sendEmail', {
       method: 'POST',
       headers: {
@@ -99,7 +97,6 @@ const AppForm: React.FC = () => {
       console.log("Email Sent!");
     }
 
-    // Only reset form after both succeed (or if email fails gracefully)
     alert('Form submitted successfully!');
     resetForm();
   } catch (err) {
@@ -142,7 +139,7 @@ const AppForm: React.FC = () => {
                         <ErrorMessage name="studentEmail" component="div" className="text-red-500"/>
                         
                         <h1>Purpose/Description of the Club*</h1>
-                        <Field className='py-12' name="description" placeholder="Enter a short description of your club (300 characters or less)"/>
+                        <Field className='py-12' component="textarea"  name="description" placeholder="Enter a short description of your club (300 characters or less)"/>
                         <ErrorMessage name="description" component="div" className="text-red-500"/>
                         
                         <h1>Category (Pick the One that Fits Best)*</h1>

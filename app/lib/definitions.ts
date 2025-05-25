@@ -5,7 +5,7 @@ export type Club = {
     studentName: string;
     studentEmail: string;
     description: string;
-    // category: string;
+    category: string;
     contactName: string;
     contactEmail: string;
     meeting_days_time: string;

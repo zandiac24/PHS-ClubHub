@@ -1,7 +1,5 @@
-export default function Page() {
-    return (
-        <div> 
-            <p>Dashboard Page</p>
-        </div>
-    );
+import { redirect } from 'next/navigation';
+
+export default function Home() {
+  redirect('/dashboard/club-directory');
 }
