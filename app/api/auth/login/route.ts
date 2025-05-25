@@ -5,12 +5,12 @@ export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json()
 
-    // Check credentials against environment variables
+    // check credentials against env variables
     if (
       username === process.env.TEACHER_USERNAME &&
       password === process.env.TEACHER_PASSWORD
     ) {
-      // Set authentication cookie
+      // set authentication cookie
       const cookieStore = await cookies()
       cookieStore.set('teacher-auth', 'authenticated', {
         httpOnly: true,

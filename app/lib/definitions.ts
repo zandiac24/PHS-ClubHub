@@ -9,7 +9,7 @@ export type Club = {
     contactName: string;
     contactEmail: string;
     meeting_days_time: string;
-    meeting_location: number;
+    meeting_location: string;
     additional_info: string;
 };
 export type Revenue = {

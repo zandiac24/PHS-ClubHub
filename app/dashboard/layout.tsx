@@ -13,9 +13,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   key="clubhub header"
                   src="/headerImage.png"
                   alt="ClubHub Header Image"
-                  objectFit="contain"
-                  height={300}
-                  width={1400}
+                  style={{objectFit:"cover"}}
+                  height={621}
+                  width={1920}
                   className="w-[100vw] h-[60vh]"
                 ></Image>
 

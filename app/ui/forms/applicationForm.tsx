@@ -15,7 +15,7 @@ interface FormValues {
     contactName: string;
     contactEmail: string;
     meeting_days_time: string;
-    meeting_location: number;
+    meeting_location: string;
     additional_info: string;
 }
 
@@ -37,7 +37,7 @@ const validationChecks = yup.object({
         'Please enter a valid MCPS email.',
         (value) => typeof value === 'string' && (value.includes('@mcpsmd.net') || value.includes('@mcpsmd.org'))),
     meeting_days_time: yup.string().required("Please enter the meeting days/times."),
-    meeting_location: yup.number().max(2800, "Please enter a valid room number").min(1000, "Please enter a valid room number.").required("Please enter the meeting location (room number)."),
+    meeting_location: yup.string(),
     additional_info: yup.string(),
 });
 
@@ -53,7 +53,7 @@ const AppForm: React.FC = () => {
         contactName:  "",
         contactEmail: "",
         meeting_days_time: "",
-        meeting_location: 0,
+        meeting_location: "",
         additional_info:  "",  
     };
    
@@ -80,23 +80,25 @@ const AppForm: React.FC = () => {
       alert(`Error: ${error.message || 'Submission to Clubs API failed.'}`);
       return; 
     }
+    
+    const result = await res.json();
+    if(result.inserted){
+        const emailResponse = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+        });
 
-    const emailResponse = await fetch('/api/sendEmail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!emailResponse.ok) {
-      const error = await emailResponse.json();
-      console.error('Email error:', error);
-      alert(`Warning: Club saved, but email failed to send. (${error.message || 'Unknown error'})`);
-    } else {
-      console.log("Email Sent!");
+        if (!emailResponse.ok) {
+        const error = await emailResponse.json();
+        console.error('Email error:', error);
+        alert(`Warning: Club saved, but email failed to send. (${error.message || 'Unknown error'})`);
+        } else {
+        console.log("Email Sent!");
+        }
     }
-
     alert('Form submitted successfully!');
     resetForm();
   } catch (err) {
@@ -159,7 +161,7 @@ const AppForm: React.FC = () => {
                         <ErrorMessage name="meeting_days_time" component="div" className="text-red-500"/>
                         
                         <h1>Meeting Location (Room Number)*</h1>
-                        <Field name="meeting_location" placeholder="Enter club meeting location (ex. Room 1000)"/>
+                        <Field name="meeting_location" placeholder="Enter club meeting location (ex. 'SMCS Hub' or 'Room 2720')"/>
                         <ErrorMessage name="meeting_location" component="div" className="text-red-500"/>
                         
                         <h1>Additional Information (Website, Social Media, etc.)</h1>

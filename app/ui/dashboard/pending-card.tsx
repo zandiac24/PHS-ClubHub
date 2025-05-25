@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function PendingCard({ club }: { club: any }) {
   const [approved, setApproved] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleApproval = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -16,7 +16,7 @@ export default function PendingCard({ club }: { club: any }) {
         body: JSON.stringify({ club_name: club.club_name }),
       });
 
-      if (!response.ok) throw new Error('Approval failed');
+      if (!response.ok) throw new Error('Club approval failed');
 
       alert('Club approved successfully!');
       setApproved(true);
@@ -26,7 +26,27 @@ export default function PendingCard({ club }: { club: any }) {
     }
   };
 
-  if (approved) return null; // Optional: hide card once approved
+  const handleRejection = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('/api/reject', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ club_name: club.club_name }),
+      });
+
+      if (!response.ok) throw new Error('Club rejection failed');
+
+      alert('Club rejected successfully!');
+      setApproved(true);
+    } catch (err) {
+      console.error('Submission error:', err);
+      alert('An error occurred.');
+    }
+  };
+
+  if (approved) return null;
 
   return (
     <div className='text-[16px] text-black bg-gradient-to-b from-white via-yellow-300 to-yellow-500 border-4 border-yellow-500 px-7 pt-7 pb-10 rounded-xl overflow-hidden break-words'>
@@ -77,17 +97,28 @@ export default function PendingCard({ club }: { club: any }) {
           </span>
         </p>
       )}
-
-      <form onSubmit={handleSubmit}>
-        <div className="w-[100%] mt-6 flex justify-center">
+      <div  className="w-[100%] mt-6 flex justify-center">
+      <form onSubmit={handleApproval}>
+        <div>
           <button
             type="submit"
-            className="flex items-center mb-[20px] mt-[30px] justify-center rounded-md bg-yellow-100 px-6 py-4 text-sm font-medium hover:bg-yellow-200"
+            className="flex items-center mb-[20px] mr-[15px] mt-[30px] justify-center rounded-md bg-yellow-100 px-6 py-4 text-sm font-medium hover:bg-yellow-200"
           >
             Approve
           </button>
         </div>
       </form>
+      <form onSubmit={handleRejection}>
+        <div>
+          <button
+            type="submit"
+            className="flex items-center mb-[20px] ml-[15px] mt-[30px] justify-center rounded-md bg-yellow-100 px-8 py-4 text-sm font-medium hover:bg-yellow-200"
+          >
+            Reject
+          </button>
+        </div>
+      </form>
+      </div>
     </div>
   );
 }
