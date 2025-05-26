@@ -32,6 +32,7 @@ const CategoryDropdown = forwardRef<RefType, CategoryDropdownProps>((props, ref)
 
     useImperativeHandle(ref, () => ({
         getSelectedCategory: () => selectedCategory,
+        reset: () => setSelectedCategory('Select Category'),
     }));
 
     return (

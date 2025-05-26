@@ -1,11 +1,13 @@
+//Form for applying to create a new club
 'use client';
 import React from 'react';
 import {useRef} from 'react';
 import {Formik, Form, Field, ErrorMessage, FormikHelpers} from 'formik';
 import * as yup from "yup";
-import CategoryDropdown from '@/app/ui/dropdowns/category-dropdown'
+import CategoryDropdown from '@/app/ui/dropdowns/category-dropdown';
+import Link from 'next/link';
 
-
+//Define types of form inputs
 interface FormValues {
     club_name: string;
     studentName: string;
@@ -19,6 +21,7 @@ interface FormValues {
     additional_info: string;
 }
 
+//Input validation
 const validationChecks = yup.object({
     club_name: yup.string().required("Please enter the club name."),
     studentName: yup.string().required("Please enter the student point of contact's full name."),
@@ -41,9 +44,11 @@ const validationChecks = yup.object({
     additional_info: yup.string(),
 });
 
+
 const AppForm: React.FC = () => {
-    const dropdownRef = useRef<{ getSelectedCategory: () => string }>(null);
+    const dropdownRef = useRef<{ getSelectedCategory: () => string, reset: () => null}>(null);
     
+    //Starting values
     const initialValues: FormValues = {
         club_name: "",
         studentName: "",
@@ -57,6 +62,7 @@ const AppForm: React.FC = () => {
         additional_info:  "",  
     };
    
+    //Submission function, posts results to database through api/clubs
     const handleSubmit = async (
   values: FormValues,
   { setSubmitting, resetForm }: FormikHelpers<FormValues>
@@ -101,6 +107,8 @@ const AppForm: React.FC = () => {
     }
     alert('Form submitted successfully!');
     resetForm();
+    dropdownRef.current?.reset();
+    
   } catch (err) {
     console.error('Submission error:', err);
     alert('An unexpected error occurred.');
@@ -115,7 +123,7 @@ const AppForm: React.FC = () => {
             <div className='text-[25px] font-semibold mt-[25px]'>New Club Application Form</div>
             <div className='text-[16px] mt-[10px] mb-[25px]'>
                 <div>Students must fill out the form below to apply to create a new club.</div>
-                <div className='mt-[10px] mb-[10px]'>1. Be sure to read the "New Club Approval Requirements."</div>
+                <div className='mt-[10px] mb-[10px]'>1. Be sure to read the <Link href="https://docs.google.com/document/d/1ZgmyGJdKUgVYE8QkCOFhnLU5QtlkIPzudVqo5cFD0qw/edit?tab=t.0" className="underline text- text-blue-700">New Club Approval Requirements.</Link></div>
                 <div className='mt-[10px] mb-[10px]'>2. After you submit the club request online, an administrator will review your request.</div>
                 <div className='mt-[10px]'>3. Upon approval from administration, the student and club sponsor will receive an email from the ECA Director, Mr. Young,</div>
                 <div className='ml-[18px] mb-[10px]'>to let them know the club has been approved.</div>

@@ -17,6 +17,7 @@
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
     "formik": "^2.4.6",
+    "fs": "0.0.1-security",
     "jose": "^6.0.11",
     "next": "latest",
     "next-auth": "5.0.0-beta.28",
