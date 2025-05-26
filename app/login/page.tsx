@@ -60,7 +60,7 @@ export default function LoginPage() {
                 name="username"
                 type="text"
                 required
-                className="w-full px-4 py-3 border-[3px] placeholder-gray-500 appearance-none order-[3px] border-yellow-200 rounded-[10] text-gray-700 mb-3 leading-tight focus:border-yellow-400 focus:outline-none"
+                className="w-full px-4 py-3 border-[3px] placeholder-gray-500 appearance-none order-[3px] border-yellow-200 rounded-xl text-gray-700 mb-3 leading-tight focus:border-yellow-400 focus:outline-none"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -75,7 +75,7 @@ export default function LoginPage() {
                 name="password"
                 type="password"
                 required
-                className="w-full px-4 py-3 border-[3px] placeholder-gray-500 appearance-none order-[3px] border-yellow-200 rounded-[10] text-gray-700 mb-3 leading-tight focus:border-yellow-400 focus:outline-none"
+                className="w-full px-4 py-3 border-[3px] placeholder-gray-500 appearance-none order-[3px] border-yellow-200 rounded-xl text-gray-700 mb-3 leading-tight focus:border-yellow-400 focus:outline-none"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

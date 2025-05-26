@@ -22,9 +22,9 @@ h1 {
 }
 
 input{
-  @apply appearance-none w-[60vw] border-[3px] border-yellow-200 mt-[15px] rounded-[10] py-5 px-3 text-gray-700 mb-3 leading-tight focus:border-yellow-400 focus:outline-none;
+  @apply appearance-none w-[60vw] border-[3px] border-yellow-200 mt-[15px] rounded-xl py-5 px-3 text-gray-700 mb-3 leading-tight focus:border-yellow-400 focus:outline-none;
 }
 
 textarea{
-  @apply appearance-none w-[60vw] border-[3px] border-yellow-200 mt-[15px] rounded-[10] py-0 px-3 text-gray-700 mb-3 leading-tight focus:border-yellow-400 focus:outline-none;
+  @apply appearance-none w-[60vw] border-[3px] border-yellow-200 mt-[15px] rounded-xl py-0 px-3 text-gray-700 mb-3 leading-tight focus:border-yellow-400 focus:outline-none;
 }
