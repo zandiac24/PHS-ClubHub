@@ -1,5 +1,6 @@
 import SideNav from '@/app/ui/navigation/sidenav';
 import Image from 'next/image'; 
+import HelpButton from '@/app/ui/help-button';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
       <div className="flex-grow md:overflow-y-auto">
         <div className="inline block flex-col mt:0px w-[100vw] h-[30vh]">
+          <div className="relative">
           <Image
                   key="clubhub header"
                   src="/headerImage.png"
@@ -18,8 +20,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   width={1920}
                   className="w-[100vw] h-[60vh]"
                 ></Image>
-
-                
+          <HelpButton />
+          </div>        
         </div>
         {children}
       </div>

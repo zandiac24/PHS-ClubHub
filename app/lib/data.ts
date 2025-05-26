@@ -1,4 +1,4 @@
-//Fetches data from the tables
+//fetches approved club data from the tables
 
 import postgres from 'postgres';
 import {
@@ -21,7 +21,7 @@ export async function fetchClubs(cat: string) {
       FROM club_list
       WHERE category = ${cat} AND status = ${'approved'}
       ORDER BY club_name ASC`;
-    //console.log(data); for debugging
+
     const clubList = data.map((club) => ({
       ...club,
     }));

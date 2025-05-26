@@ -1,4 +1,4 @@
-//Fetches data from the tables
+//fetches data on pending clubs from the table
 
 import postgres from 'postgres';
 import {

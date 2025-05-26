@@ -123,7 +123,7 @@ const AppForm: React.FC = () => {
             <div className='text-[25px] font-semibold mt-[25px]'>New Club Application Form</div>
             <div className='text-[16px] mt-[10px] mb-[25px]'>
                 <div>Students must fill out the form below to apply to create a new club.</div>
-                <div className='mt-[10px] mb-[10px]'>1. Be sure to read the <Link href="https://docs.google.com/document/d/1ZgmyGJdKUgVYE8QkCOFhnLU5QtlkIPzudVqo5cFD0qw/edit?tab=t.0" className="underline text- text-blue-700">New Club Approval Requirements.</Link></div>
+                <div className='mt-[10px] mb-[10px]'>1. Be sure to read the <Link href="https://docs.google.com/document/d/1ZgmyGJdKUgVYE8QkCOFhnLU5QtlkIPzudVqo5cFD0qw/edit?tab=t.0" className="underline text-blue-700">New Club Approval Requirements.</Link></div>
                 <div className='mt-[10px] mb-[10px]'>2. After you submit the club request online, an administrator will review your request.</div>
                 <div className='mt-[10px]'>3. Upon approval from administration, the student and club sponsor will receive an email from the ECA Director, Mr. Young,</div>
                 <div className='ml-[18px] mb-[10px]'>to let them know the club has been approved.</div>
