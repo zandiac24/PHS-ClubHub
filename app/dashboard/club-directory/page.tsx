@@ -1,4 +1,4 @@
-import Link from 'next/link'
+//club directory main page
 import DirLinks from '@/app/ui/navigation/links/directory-links'
 export default function Page() {
     return (

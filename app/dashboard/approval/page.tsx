@@ -1,3 +1,4 @@
+//admin panel page
 import PendingClubList from '@/app/ui/dashboard/pending-clubs';
 export const dynamic = 'force-dynamic';
 import Link from 'next/link';

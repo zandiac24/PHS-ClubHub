@@ -1,8 +1,7 @@
+//links for the club directory
 import Link from 'next/link';
 
-
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
+//list of links to categories
 const links = [
   { name: 'Activism', href: '/dashboard/club-directory/activism'},
   { name: 'Arts', href: '/dashboard/club-directory/arts'},
@@ -20,11 +19,10 @@ const links = [
    { name: 'Miscellaneous', href: '/dashboard/club-directory/miscellaneous'},
 ];
 
-
-
 export default function NavLinks() {
   return (
     <>
+      {/*Display each category as a formatted button*/}
       {links.map((link) => {
         return (
           <Link

@@ -1,3 +1,4 @@
+//student registration form (to join a club)a
 'use client';
 import React from 'react';
 import {useRef} from 'react';
@@ -7,7 +8,7 @@ import dynamic from 'next/dynamic';
 
 const ClubDropdown = dynamic(() => import('@/app/ui/dropdowns/club-dropdown'), { ssr: false });
 
-
+//define form inputs
 interface FormValues {
     firstName: string;
     lastName: string;
@@ -15,6 +16,7 @@ interface FormValues {
     club: string;
 }
 
+//form validation (with yup)
 const validationChecks = yup.object({
     firstName: yup.string().required("Please enter your first name."),
     lastName: yup.string().required("Please enter your last name."),
@@ -25,6 +27,7 @@ const validationChecks = yup.object({
 const RegForm: React.FC = () => {
     const dropdownRef = useRef<{ getSelectedClub: () => string, reset: () => null}>(null);
     
+    //starting values
     const initialValues: FormValues = {
         firstName: "",
         lastName: "",
@@ -32,6 +35,7 @@ const RegForm: React.FC = () => {
         club:  "", 
     };
    
+    //when submitted, reset the form, dropdown, and post the values via api
     const handleSubmit = async (
         values: FormValues,
         {setSubmitting, resetForm}: FormikHelpers<FormValues>

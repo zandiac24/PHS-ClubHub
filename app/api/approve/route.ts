@@ -1,3 +1,4 @@
+//approve club- update database to set status to approved
 import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
 

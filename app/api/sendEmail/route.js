@@ -1,10 +1,13 @@
-// app/api/sendEmail/route.js
+//send an email notification to Mr. Young via nodemailer
+//for new club applications (only valid/non-duplicate ones)
 import nodemailer from 'nodemailer';
 
 export async function POST(req) {
+  //get club information
   const body = await req.json();
   const { club_name, studentName, studentEmail, description, category, contactName, contactEmail, meeting_days_time, meeting_location, additional_info} = body;
 
+  //defines the sender
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -14,6 +17,7 @@ export async function POST(req) {
     },
   });
 
+  //email format/message
   try {
     await transporter.sendMail({
       from: process.env.GMAIL_USERNAME,

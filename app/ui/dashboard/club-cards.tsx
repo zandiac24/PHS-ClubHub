@@ -1,3 +1,4 @@
+//creates an information card with data for each club
 export const dynamic = 'force-dynamic';
 import {fetchClubs} from '@/app/lib/data';
 import Link from 'next/link'
@@ -7,10 +8,11 @@ type ClubListProps = {
 };
 
 export default async function ClubList({ cat }: ClubListProps) {
-    const clubList = await fetchClubs(cat);
+  const clubList = await fetchClubs(cat);
   return (
     <div>
         {<div className='flex w-[78vw] grid grid-cols-3 gap-[40px] mb-[45px]'>
+          {/*Map the club data to cards that display the info*/}
           {clubList.map((club, i) => {
             return (
               <div

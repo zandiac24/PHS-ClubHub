@@ -1,9 +1,10 @@
-//Fetches all approved club names from the tables
-
+//fetches all approved club names from the tables
 import postgres from 'postgres';
 import {
   Club,
 } from './definitions';
+
+//database information
 const sql = postgres(process.env.POSTGRES_URL!, {
   ssl: 'require',
   prepare: false,

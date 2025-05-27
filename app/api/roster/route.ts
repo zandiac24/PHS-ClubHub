@@ -1,6 +1,8 @@
+//add a student to the club roster (from registration form)
 import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
 
+//database information
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -12,8 +14,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    //student information from the form
     const {firstName, lastName, studentID, club} = body;
 
+    //insert the student into the database unless a student with the same ID is already in that club
     const query = `
       INSERT INTO student_roster (first_name, last_name, student_ID, club)
       VALUES ($1, $2, $3, $4)

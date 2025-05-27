@@ -1,11 +1,13 @@
+//display pending club data in the same "card" format as the directory
+//+ approve and reject buttons
 'use client';
-
 import { useState } from 'react';
 import Link from 'next/link';
 
 export default function PendingCard({ club }: { club: any }) {
   const [approved, setApproved] = useState(false);
 
+  //if club is approved, call the proper api route
   const handleApproval = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -26,6 +28,7 @@ export default function PendingCard({ club }: { club: any }) {
     }
   };
 
+  //if club is rejected, call the api route
   const handleRejection = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -46,6 +49,7 @@ export default function PendingCard({ club }: { club: any }) {
     }
   };
 
+  //if it's approved/rejected, it will disappear from the page
   if (approved) return null;
 
   return (
@@ -97,6 +101,8 @@ export default function PendingCard({ club }: { club: any }) {
           </span>
         </p>
       )}
+
+      {/*Buttons for approval/rejection on each card*/}
       <div  className="w-[100%] mt-6 flex justify-center">
       <form onSubmit={handleApproval}>
         <div>

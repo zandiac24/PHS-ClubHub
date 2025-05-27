@@ -1,3 +1,4 @@
+//fetch all approved club names from the database
 import { NextResponse } from 'next/server';
 import { fetchAllClubs } from '@/app/lib/club_names';
 

@@ -1,14 +1,16 @@
-//fetches approved club data from the tables
-
+//fetches data for all approved clubs (for display in directory)
 import postgres from 'postgres';
 import {
   Club,
 } from './definitions';
+
+//database information
 const sql = postgres(process.env.POSTGRES_URL!, {
   ssl: 'require',
   prepare: false,
 });
 
+//fetches clubs in category (cat)
 export async function fetchClubs(cat: string) {
   try {
     const data = await sql<Club[]>`

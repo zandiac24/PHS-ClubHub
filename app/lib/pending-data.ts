@@ -1,9 +1,10 @@
-//fetches data on pending clubs from the table
-
+//fetches data on pending clubs from the table (for approval/rejection)
 import postgres from 'postgres';
 import {
   Club,
 } from './definitions';
+
+//database information
 const sql = postgres(process.env.POSTGRES_URL!, {
   ssl: 'require',
   prepare: false,
@@ -11,6 +12,7 @@ const sql = postgres(process.env.POSTGRES_URL!, {
 
 export async function fetchPending() {
   try {
+    //gets data for all clubs labeled pending
     const data = await sql<Club[]>`
       SELECT club_name, description, category,
       studentName AS "studentName",

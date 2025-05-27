@@ -1,8 +1,9 @@
-//category dropdown
+//category dropdown (for new club application form)
 'use client'
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
+//handle change
 type CategoryDropdownProps = {
   onChange?: (category: string) => void;
 };
@@ -20,16 +21,19 @@ const CategoryDropdown = forwardRef<RefType, CategoryDropdownProps>((props, ref)
 
     const categories = ['Activism', 'Arts', 'Business', 'Community Service', 'Culture/Identity', 'Hobbies & Games', 'Honor Societies', 'Language', 'Leadership', 'Logic', 'Non-Varsity Sports/Fitness', 'Science/Tech', 'Social Studies', 'Miscellaneous'];
 
+    //if dropdown is clicked, set to open/not open
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
+    //if new item selected, close the dropdown and update the category
     const handleSelect = (category: string) => {
         setSelectedCategory(category);
         setIsOpen(false);
         if (onChange) onChange(category);
     };
 
+    //makes selected category and reset function accessible to parent
     useImperativeHandle(ref, () => ({
         getSelectedCategory: () => selectedCategory,
         reset: () => setSelectedCategory('Select Category'),

@@ -1,8 +1,10 @@
+//admin login to access protected admin panel
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   try {
+    //parse username and password from json
     const { username, password } = await request.json()
 
     // check credentials against env variables
@@ -10,13 +12,14 @@ export async function POST(request: NextRequest) {
       username === process.env.TEACHER_USERNAME &&
       password === process.env.TEACHER_PASSWORD
     ) {
-      // set authentication cookie
+      // sets an HTTP cookie (teacher-auth) to authenticated
       const cookieStore = await cookies()
       cookieStore.set('teacher-auth', 'authenticated', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 60 * 60 * 24 // 24 hours
+        //cookie expires after 24 hours
+        maxAge: 60 * 60 * 24
       })
 
       return NextResponse.json({ success: true })

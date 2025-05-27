@@ -1,3 +1,4 @@
+//help button (displayed on the header)
 'use client'
 import { useState } from 'react';
 import {ExclamationCircleIcon} from '@heroicons/react/24/outline';

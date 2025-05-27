@@ -1,3 +1,4 @@
+//club dropdown (for registration form)
 'use client';
 import { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
@@ -19,6 +20,7 @@ const ClubDropdown = forwardRef<RefType, ClubDropdownProps>((props, ref) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
+  //fetch all clubs and make a list
   useEffect(() => {
     const fetchClubs = async () => {
       try {
@@ -43,21 +45,25 @@ const ClubDropdown = forwardRef<RefType, ClubDropdownProps>((props, ref) => {
     fetchClubs();
   }, []);
 
+  //open/close dropdown
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  //if new club is selected, close dropdown + change club
   const handleSelect = (club: string) => {
     setSelectedClub(club);
     setIsOpen(false);
     if (onChange) onChange(club);
   };
 
+  //makes selected club and reset function available to parent
   useImperativeHandle(ref, () => ({
     getSelectedClub: () => selectedClub === 'Select Club' ? '' : selectedClub,
     reset: () => setSelectedClub('Select Club'),
   }));
 
+  //shows "Loading clubs" while fetching the club list from database
   if (loading) {
     return (
       <div className="flex">

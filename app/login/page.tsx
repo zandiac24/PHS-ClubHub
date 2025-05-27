@@ -1,5 +1,5 @@
+//admin login page
 'use client'
-
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
+  //upon submission, attempt to authorize login
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -23,7 +24,8 @@ export default function LoginPage() {
         },
         body: JSON.stringify({ username, password }),
       })
-
+      
+      //if credentials are good, access admin panel
       if (response.ok) {
         router.push('/dashboard/approval')
         router.refresh()

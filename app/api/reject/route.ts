@@ -1,3 +1,4 @@
+//rejects a pending club- delete from database
 import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
 
@@ -12,8 +13,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    //get club name (primary key)
     const {club_name} = body;
 
+    //delete the club 
     const query = `
       DELETE FROM club_list
       WHERE club_name = $1;

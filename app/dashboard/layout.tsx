@@ -1,6 +1,7 @@
+//implements side navigation, image header, and help button throughout the site
 import SideNav from '@/app/ui/navigation/sidenav';
 import Image from 'next/image'; 
-import HelpButton from '@/app/ui/help-button';
+import HelpButton from '@/app/ui/dashboard/help-button';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

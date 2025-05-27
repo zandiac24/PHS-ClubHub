@@ -1,9 +1,11 @@
+//log out of admin account
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
 export async function POST() {
   try {
     const cookieStore = await cookies()
+    //delete authentication cookie
     cookieStore.delete('teacher-auth')
     
     return NextResponse.json({ success: true })

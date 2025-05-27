@@ -1,3 +1,4 @@
+//site navigation links- application, registration, and directory
 import {
   UserGroupIcon,
   PlusIcon,
@@ -5,8 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
+// list of links to display in the side navigation.
 const links = [
   { name: 'Club Directory', href: '/dashboard/club-directory', icon: ListBulletIcon},
   {
@@ -20,6 +20,7 @@ const links = [
 export default function NavLinks() {
   return (
     <>
+      {/*Display all links in the list with their icons*/}
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (

@@ -1,4 +1,4 @@
-//Form for applying to create a new club
+//form for applying to create a new club
 'use client';
 import React from 'react';
 import {useRef} from 'react';
@@ -7,7 +7,7 @@ import * as yup from "yup";
 import CategoryDropdown from '@/app/ui/dropdowns/category-dropdown';
 import Link from 'next/link';
 
-//Define types of form inputs
+//define types of form inputs
 interface FormValues {
     club_name: string;
     studentName: string;
@@ -21,7 +21,7 @@ interface FormValues {
     additional_info: string;
 }
 
-//Input validation
+//input validation
 const validationChecks = yup.object({
     club_name: yup.string().required("Please enter the club name."),
     studentName: yup.string().required("Please enter the student point of contact's full name."),
@@ -34,13 +34,13 @@ const validationChecks = yup.object({
         'contains-title',
         "Please enter Mr./Ms./Mrs. followed by the sponsor's last name.",
         (value) => typeof value === 'string' && (value.includes('Mr. ') || value.includes('Ms. ') || value.includes('Mrs. ') || value.includes('Mx. '))),
-    contactEmail: yup.string().email("Please enter a valid MCPS email.").required("Please enter the clup sponsor's MCPS email.")
+    contactEmail: yup.string().email("Please enter a valid MCPS email.").required("Please enter the club sponsor's MCPS email.")
     .test(
         'contains-mcpsmd',
         'Please enter a valid MCPS email.',
         (value) => typeof value === 'string' && (value.includes('@mcpsmd.net') || value.includes('@mcpsmd.org'))),
     meeting_days_time: yup.string().required("Please enter the meeting days/times."),
-    meeting_location: yup.string(),
+    meeting_location: yup.string().required("Please enter the meeting location."),
     additional_info: yup.string(),
 });
 
@@ -48,7 +48,7 @@ const validationChecks = yup.object({
 const AppForm: React.FC = () => {
     const dropdownRef = useRef<{ getSelectedCategory: () => string, reset: () => null}>(null);
     
-    //Starting values
+    //starting values
     const initialValues: FormValues = {
         club_name: "",
         studentName: "",
@@ -62,7 +62,7 @@ const AppForm: React.FC = () => {
         additional_info:  "",  
     };
    
-    //Submission function, posts results to database through api/clubs
+    //submission function, posts results to database through api/clubs
     const handleSubmit = async (
   values: FormValues,
   { setSubmitting, resetForm }: FormikHelpers<FormValues>
@@ -87,6 +87,7 @@ const AppForm: React.FC = () => {
       return; 
     }
     
+    //if club was inserted, notify Mr. Young via nodemailer
     const result = await res.json();
     if(result.inserted){
         const emailResponse = await fetch('/api/sendEmail', {
@@ -105,6 +106,8 @@ const AppForm: React.FC = () => {
         console.log("Email Sent!");
         }
     }
+
+    //alert user that the form was submitted
     alert('Form submitted successfully!');
     resetForm();
     dropdownRef.current?.reset();
@@ -168,7 +171,7 @@ const AppForm: React.FC = () => {
                         <Field name="meeting_days_time" placeholder="Enter the meeting dates/times (ex. Monday and Thursday at Lunch)"/>
                         <ErrorMessage name="meeting_days_time" component="div" className="text-red-500"/>
                         
-                        <h1>Meeting Location (Room Number)*</h1>
+                        <h1>Meeting Location*</h1>
                         <Field name="meeting_location" placeholder="Enter club meeting location (ex. 'SMCS Hub' or 'Room 2720')"/>
                         <ErrorMessage name="meeting_location" component="div" className="text-red-500"/>
                         

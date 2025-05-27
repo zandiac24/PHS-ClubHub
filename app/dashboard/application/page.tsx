@@ -1,3 +1,4 @@
+//new club application page
 'use client';
 import AppForm from '@/app/ui/forms/applicationForm';
 
