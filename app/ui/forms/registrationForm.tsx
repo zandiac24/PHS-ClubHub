@@ -20,7 +20,7 @@ interface FormValues {
 const validationChecks = yup.object({
     firstName: yup.string().required("Please enter your first name."),
     lastName: yup.string().required("Please enter your last name."),
-    studentID: yup.number().min(100000, "Please enter a valid MCPS ID.").required("Please enter your MCPS student ID number."),
+    studentID: yup.number().typeError("Please enter a valid MCPS ID.").min(100000, "Please enter a valid MCPS ID.").required("Please enter your MCPS student ID number."),
     club: yup.string().required("Please select the club you wish to join."),
 });
 
