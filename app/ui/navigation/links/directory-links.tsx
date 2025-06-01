@@ -20,10 +20,12 @@ const links = [
 ];
 
 export default function NavLinks() {
+  const mainLinks = links.slice(0, -2);
+  const lastTwoLinks = links.slice(-2); 
   return (
     <>
-      {/*Display each category as a formatted button*/}
-      {links.map((link) => {
+      {/*display each category as a formatted button*/}
+      {mainLinks.map((link) => {
         return (
           <Link
             key={link.name}
@@ -33,6 +35,25 @@ export default function NavLinks() {
             <p className="hidden md:block">{link.name}</p>
           </Link>
         );
+      })}
+      
+      {/*empty space for first column */}
+      <div></div>
+      
+       {/*display last two categories as a formatted button*/}
+      {lastTwoLinks.map((link) => {
+        return (
+          <Link
+            key={link.name}
+            href={link.href}
+            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 w-[18vw] h-[10vh] text-xl font-medium hover:bg-yellow-200'
+          >
+            <p className="hidden md:block">{link.name}</p>
+          </Link>
+        );
+
+        {/*empty space for last column*/}
+        <div></div>
       })}
     </>
   );

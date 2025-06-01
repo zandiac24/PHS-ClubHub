@@ -89,7 +89,7 @@ const ClubDropdown = forwardRef<RefType, ClubDropdownProps>((props, ref) => {
       <div className="relative inline-block text-left">
         <button
           type="button"
-          className="flex items-center mb-[10px] justify-center rounded-md mt-[15px] bg-yellow-200 w-[230px] h-[65px] text-sm font-medium"
+          className="flex items-center mb-[10px] justify-center rounded-md mt-[15px] bg-yellow-200 w-[230px] h-[65px] px-4 py-2 text-sm font-medium"
           onClick={toggleDropdown}
         >
           {selectedClub}

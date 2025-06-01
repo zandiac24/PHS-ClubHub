@@ -1,4 +1,4 @@
-//student registration form (to join a club)a
+//update club information form
 'use client';
 import React from 'react';
 import {useRef} from 'react';
@@ -10,28 +10,39 @@ const ClubDropdown = dynamic(() => import('@/app/ui/dropdowns/club-dropdown'), {
 
 //define form inputs
 interface FormValues {
-    firstName: string;
-    lastName: string;
-    studentID: number;
+    studentName: string;
+    studentEmail: string;
+    contactName: string;
+    contactEmail: string;
     club: string;
 }
 
 //form validation (with yup)
 const validationChecks = yup.object({
-    firstName: yup.string().required("Please enter your first name."),
-    lastName: yup.string().required("Please enter your last name."),
-    studentID: yup.number().typeError("Please enter a valid MCPS ID.").min(100000, "Please enter a valid MCPS ID.").required("Please enter your MCPS student ID number."),
-    club: yup.string().required("Please select the club you wish to join."),
+    studentName: yup.string().required("Please enter the student leader's name."),
+    studentEmail: yup.string().email("Please enter a valid email").required("Please enter the student leader's email."),
+    contactName: yup.string().required("Please enter the club sponsor's name.")
+        .test(
+            'contains-title',
+            "Please enter Mr./Ms./Mrs. followed by the sponsor's last name.",
+            (value) => typeof value === 'string' && (value.includes('Mr. ') || value.includes('Ms. ') || value.includes('Mrs. ') || value.includes('Mx. '))),
+    contactEmail: yup.string().email("Please enter a valid MCPS email.").required("Please enter the club sponsor's MCPS email.")
+        .test(
+            'contains-mcpsmd',
+            'Please enter a valid MCPS email.',
+            (value) => typeof value === 'string' && (value.includes('@mcpsmd.net') || value.includes('@mcpsmd.org'))),
+    club: yup.string().required("Please select the club you wish to update."),
 });
 
-const RegForm: React.FC = () => {
+const UpdateForm: React.FC = () => {
     const dropdownRef = useRef<{ getSelectedClub: () => string, reset: () => null}>(null);
     
     //starting values
     const initialValues: FormValues = {
-        firstName: "",
-        lastName: "",
-        studentID: 0,
+        studentName: "",
+        studentEmail: "",
+        contactName: "",
+        contactEmail: "",
         club:  "", 
     };
    
@@ -47,7 +58,7 @@ const RegForm: React.FC = () => {
          };
 
     try {
-      const res = await fetch('/api/roster', {
+      const res = await fetch('/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -71,9 +82,9 @@ const RegForm: React.FC = () => {
 
     return (
         <div className='ml-[35px]'>
-            <div className='text-[25px] font-semibold mt-[25px]'>Student Registration Form</div>
+            <div className='text-[25px] font-semibold mt-[25px]'>Club Information Update Form</div>
             <div className='text-[16px] mt-[10px] mb-[25px]'>
-                <div>Students must fill out the form below each year to be a registered member of a club.</div>
+                <div>Sponsors must fill out the form below if they want to update club information.</div>
             </div>
             <Formik
                 initialValues={initialValues}
@@ -82,17 +93,21 @@ const RegForm: React.FC = () => {
             >
                 {({isSubmitting, setFieldValue}) => (
                     <Form>
-                        <h1>Student First Name*</h1>
-                        <Field name="firstName" placeholder="Enter your first name" />
-                        <ErrorMessage name="firstName" component="div" className="text-red-500"/>
+                        <h1>Student Leader Full Name*</h1>
+                        <Field name="studentName" placeholder="Enter the student leader's full name" />
+                        <ErrorMessage name="studentName" component="div" className="text-red-500"/>
                         
-                        <h1>Student Last Name*</h1>
-                        <Field name="lastName" placeholder="Enter your last name"/>
-                        <ErrorMessage name="lastName" component="div" className="text-red-500"/>
+                        <h1>Student Leader Email*</h1>
+                        <Field name="studentEmail" placeholder="Enter the student leader's email"/>
+                        <ErrorMessage name="studentEmail" component="div" className="text-red-500"/>
                         
-                        <h1>MCPS Student ID*</h1>
-                        <Field name="studentID" placeholder="Enter your MCPS Student ID"/>
-                        <ErrorMessage name="studentID" component="div" className="text-red-500"/>
+                        <h1>Sponsor Name*</h1>
+                        <Field name="contactName" placeholder="Enter the club sponsor's name (ex. Mr. King)"/>
+                        <ErrorMessage name="contactName" component="div" className="text-red-500"/>
+
+                        <h1>Sponsor Email*</h1>
+                        <Field name="contactEmail" placeholder="Enter the club sponsor's MCPS email"/>
+                        <ErrorMessage name="contactEmail" component="div" className="text-red-500"/>
                         
                         <h1>Club*</h1>
                         <ClubDropdown ref={dropdownRef} onChange={(club) => setFieldValue("club", club)}/>
@@ -110,6 +125,4 @@ const RegForm: React.FC = () => {
     );
 };
 
-export default RegForm;
-
-
+export default UpdateForm;
