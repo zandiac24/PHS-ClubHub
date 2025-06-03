@@ -148,7 +148,7 @@ const AppForm: React.FC = () => {
                         <ErrorMessage name="studentName" component="div" className="text-red-500"/>
                         
                         <h1>Student Email*</h1>
-                        <Field name="studentEmail" placeholder="Enter your MCPS email (@mcpsmd.net)"/>
+                        <Field name="studentEmail" placeholder="Enter your email (personal or MCPS)"/>
                         <ErrorMessage name="studentEmail" component="div" className="text-red-500"/>
                         
                         <h1>Purpose/Description of the Club*</h1>
