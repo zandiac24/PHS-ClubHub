@@ -12,6 +12,8 @@ const sql = postgres(process.env.POSTGRES_URL!, {
 
 
 export async function POST(request: NextRequest) {
+        await sql`
+            DELETE FROM sponsor_sessions`
 //   const authHeader = request.headers.get('authorization');
 //   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
 //     return new Response('Unauthorized', {
@@ -35,7 +37,7 @@ export async function POST(request: NextRequest) {
   try {
     for (const club of clubList) {
         const token = crypto.randomBytes(32).toString('hex');
-        const expiresAt = new Date(Date.now() + (168 * 60 * 60 * 1000));
+        const expiresAt = new Date(Date.now() + (336 * 60 * 60 * 1000));
         
         await sql`
             INSERT INTO sponsor_sessions (token, sponsor_email, created_at, expires_at, used)
@@ -57,7 +59,7 @@ export async function POST(request: NextRequest) {
         <div>    
         <p>Good morning. Thank you for your work with your club this year. To prepare for next year, we're in the process of updating the club list and details for each club. Please let us know the following details:</p>
         <ol>
-            <li>Please use <a href=${loginUrl}>this form</a> to let us know if your club is going to continue next year. The link will expire in 7 days.</li>
+            <li>Please use <a href=${loginUrl}>this form</a> to let us know if your club is going to continue next year. The link will expire in 14 days.</li>
             <li>Review the current details about your club at the <a href=${directoryUrl}>Poolesville Club Hub</a>, and use this form (insert the link to your form here) to update necessary changes to your club - student leader, meeting details, sponsor, etc.</li>
         </ol>
         <p>Thank you, <br>Mr. Young</p>

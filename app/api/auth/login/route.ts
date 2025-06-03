@@ -76,9 +76,6 @@ export async function POST(request: NextRequest) {
         `
     // sets an HTTP cookie (sponsor-auth) to authenticated
       const cookieStore = await cookies()
-      await sql`
-            DELETE FROM sponsor_sessions
-            WHERE token = ${token}`
       cookieStore.set('sponsor-auth', 'authenticated', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
