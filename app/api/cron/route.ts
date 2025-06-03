@@ -2,6 +2,14 @@
 import type { NextRequest} from 'next/server';
 import { fetchInfo } from '@/app/lib/sponsor-emails';
 import nodemailer from 'nodemailer';
+import crypto from 'crypto';
+import postgres from 'postgres';
+
+const sql = postgres(process.env.POSTGRES_URL!, {
+  ssl: 'require',
+  prepare: false,
+});
+
 
 export async function POST(request: NextRequest) {
 //   const authHeader = request.headers.get('authorization');
@@ -26,6 +34,16 @@ export async function POST(request: NextRequest) {
   //sending emails
   try {
     for (const club of clubList) {
+        const token = crypto.randomBytes(32).toString('hex');
+        const expiresAt = new Date(Date.now() + (168 * 60 * 60 * 1000));
+        
+        await sql`
+            INSERT INTO sponsor_sessions (token, sponsor_email, created_at, expires_at, used)
+            VALUES (${token}, ${club.contactEmail}, ${new Date(Date.now())}, ${expiresAt}, ${false})
+        `
+        const loginUrl = `${process.env.BASE_URL}/login?token=${token}`;
+        const directoryUrl = `${process.env.BASE_URL}/dashboard/club-directory`;
+
         if (!club.contactEmail || !club.contactEmail.includes('@')) {
             console.log(`Skipping invalid email for club ${club.club_name}: ${club.contactEmail}`);
             continue;
@@ -39,8 +57,8 @@ export async function POST(request: NextRequest) {
         <div>    
         <p>Good morning. Thank you for your work with your club this year. To prepare for next year, we're in the process of updating the club list and details for each club. Please let us know the following details:</p>
         <ol>
-            <li>Please use <a href="https://phs-clubhub-git-main-bryces-projects-04fe9edd.vercel.app/dashboard/update">this form</a> to let us know if your club is going to continue next year.</li>
-            <li>Review the current details about your club at the <a href="https://phs-clubhub-git-main-bryces-projects-04fe9edd.vercel.app/dashboard/club-directory">Poolesville Club Hub</a>, and use this form (insert the link to your form here) to update necessary changes to your club - student leader, meeting details, sponsor, etc.</li>
+            <li>Please use <a href=${loginUrl}>this form</a> to let us know if your club is going to continue next year. The link will expire in 7 days.</li>
+            <li>Review the current details about your club at the <a href=${directoryUrl}>Poolesville Club Hub</a>, and use this form (insert the link to your form here) to update necessary changes to your club - student leader, meeting details, sponsor, etc.</li>
         </ol>
         <p>Thank you, <br>Mr. Young</p>
         </div>

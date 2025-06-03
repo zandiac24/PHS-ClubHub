@@ -15,21 +15,66 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     //updated information from the form
-    const {studentName, studentEmail, contactName, contactEmail, club} = body;
+    const {studentName, studentEmail, description, contactName, contactEmail, meeting_days_time, meeting_location, additional_info, club} = body;
+
+    const fields: string[] = [];
+    const values: string[] = [];
+    let paramIndex = 1;
+
+    //only update fields that aren't null
+    if(studentName) {
+        fields.push(`studentname = $${paramIndex++}`);
+        values.push(studentName);
+    }
+
+    if(studentEmail) {
+        fields.push(`studentemail = $${paramIndex++}`);
+        values.push(studentEmail);
+    }
+
+    if(description) {
+        fields.push(`description = $${paramIndex++}`);
+        values.push(description);
+    }
+
+    if(contactName) {
+        fields.push(`contactname = $${paramIndex++}`);
+        values.push(contactName);
+    }
+
+    if(contactEmail) {
+        fields.push(`contactemail = $${paramIndex++}`);
+        values.push(contactEmail);
+    }
+
+    if(meeting_days_time) {
+        fields.push(`meeting_days_time = $${paramIndex++}`);
+        values.push(meeting_days_time);
+    }
+
+    if(meeting_location) {
+        fields.push(`meeting_location = $${paramIndex++}`);
+        values.push(meeting_location);
+    }
+
+    if(additional_info) {
+        fields.push(`additional_info = $${paramIndex++}`);
+        values.push(additional_info);
+    }
+
+    values.push(club);
 
     //insert the student into the database unless a student with the same ID is already in that club
     const query = `
       UPDATE club_list
-      SET studentname = $1, studentemail = $2, contactname = $3, contactemail = $4
-      WHERE club_name = $5
+      SET ${fields.join(', ')}
+      WHERE club_name = $${paramIndex}
       RETURNING *;
     `;
-
-    const values = [studentName, studentEmail, contactName, contactEmail, club];
-    const result = await pool.query(query, values);
-    if(result.rows.length === 0) {
+    if(values.length === 1) {
       return NextResponse.json({ success: true, inserted: false});
     }
+    const result = await pool.query(query, values);
     return NextResponse.json({ success: true, inserted: true, data: result.rows[0] });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

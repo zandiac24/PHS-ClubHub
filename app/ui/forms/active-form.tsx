@@ -31,6 +31,8 @@ const UpdateForm: React.FC = () => {
         const club_name = dropdownRef.current?.getSelectedClub() || '';
         const payload = {club_name};
 
+    const result = window.confirm(`Are you sure you want to delete ${club_name}?`);
+    if (result) {
     try {
       const res = await fetch('/api/reject', {
         method: 'POST',
@@ -52,6 +54,8 @@ const UpdateForm: React.FC = () => {
     } finally {
       setSubmitting(false);
     }
+    }
+    setSubmitting(false);
   };
 
   //when continued, reset the form and dropdown
@@ -62,28 +66,6 @@ const UpdateForm: React.FC = () => {
         resetForm();
         dropdownRef.current?.reset();
         setSubmitting(false);
-
-    // try {
-    //   const res = await fetch('/api/continue', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(payload),
-    //   });
-
-    //   if (res.ok) {
-    //     alert('Club continued successfully!');
-    //     resetForm();
-    //     dropdownRef.current?.reset();
-    //   } else {
-    //     const error = await res.json();
-    //     alert(`Error: ${error.message || 'Continuation failed.'}`);
-    //   }
-    // } catch (err) {
-    //   console.error('Continuation error:', err);
-    //   alert('An unexpected error occurred.');
-    // } finally {
-    //   setSubmitting(false);
-    // }
   };
 
     return (

@@ -7,6 +7,7 @@ export async function POST() {
     const cookieStore = await cookies()
     //delete authentication cookie
     cookieStore.delete('teacher-auth')
+    cookieStore.delete('sponsor-auth')
     
     return NextResponse.json({ success: true })
   } catch (error) {

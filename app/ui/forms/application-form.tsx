@@ -172,7 +172,7 @@ const AppForm: React.FC = () => {
                         <ErrorMessage name="meeting_days_time" component="div" className="text-red-500"/>
                         
                         <h1>Meeting Location*</h1>
-                        <Field name="meeting_location" placeholder="Enter club meeting location (ex. 'SMCS Hub' or 'Room 2720')"/>
+                        <Field name="meeting_location" placeholder="Enter the club's meeting location (ex. 'SMCS Hub' or 'Room 2720')"/>
                         <ErrorMessage name="meeting_location" component="div" className="text-red-500"/>
                         
                         <h1>Additional Information (Website, Social Media, etc.)</h1>
