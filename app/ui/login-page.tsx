@@ -68,7 +68,7 @@ export default function LoginPage() {
 
   return (
     <div className="text-black min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full sm:w-[80vw] space-y-8">
         <div>
         {loginType === 'admin'? (
         <>

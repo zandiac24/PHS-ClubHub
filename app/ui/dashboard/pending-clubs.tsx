@@ -5,7 +5,7 @@ export default async function PendingClubList() {
   const clubList = await fetchPending();
 
   return (
-    <div className="flex w-[78vw] grid grid-cols-3 gap-[40px] mb-[45px]">
+    <div className="flex w-[100%] md:w-[68vw] lg:w-[100%] grid mb-[45px] lg:grid-cols-3 lg:gap-[40px] md:grid-cols-2 md:gap-5 sm:grid-cols-1 sm:gap-10">
       {/*create a card for each club*/}
       {clubList.map((club) => (
         <PendingCard key={club.club_name} club={club} />

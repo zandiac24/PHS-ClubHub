@@ -12,7 +12,7 @@ export default async function ClubList({ cat }: ClubListProps) {
   if(clubList.length != 0) {
     return (
       <div>
-          {<div className='flex w-[78vw] grid grid-cols-3 gap-[40px] mb-[45px]'>
+          {<div className='flex w-[100%] md:w-[68vw] lg:w-[100%] grid lg:grid-cols-3 md:grid-cols-2 md:gap-5 lg:gap-[40px] sm:grid-cols-1 sm:gap-10'>
             {/*Map the club data to cards that display the info*/}
             {clubList.map((club, i) => {
               return (

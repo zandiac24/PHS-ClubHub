@@ -69,7 +69,7 @@ const UpdateForm: React.FC = () => {
   };
 
     return (
-        <div className='ml-[35px]'>
+        <div className='ml-[35px] mr-[35px]'>
             <div className='text-[25px] font-semibold mt-[25px]'>Club Renewal Form</div>
             <Formik
                 initialValues={initialValues}
@@ -92,7 +92,7 @@ const UpdateForm: React.FC = () => {
                                     setSubmitting(true);
                                     createContinueHandler(setSubmitting, resetForm)();
                                 }}
-                                className="mr-[50px] ml-[50px] items-center mb-[30px] justify-center rounded-md bg-yellow-100 px-6 py-4 text-sm font-medium hover:bg-yellow-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="mr-[50px] ml-[50px] items-center mb-[30px] justify-center rounded-md bg-yellow-100 lg:w-[10vw] sm:w-[35vw] h-[7vh] text-sm font-medium hover:bg-yellow-200 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Continue Club
                             </button>
@@ -103,7 +103,7 @@ const UpdateForm: React.FC = () => {
                                     setSubmitting(true);
                                     createDeleteHandler(setSubmitting, resetForm)();
                                 }}
-                                className="items-center mr-[50px] ml-[50px] mb-[30px] justify-center rounded-md bg-yellow-100 px-6 py-4 text-sm font-medium hover:bg-yellow-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="items-center mr-[50px] ml-[50px] mb-[30px] justify-center rounded-md bg-yellow-100 text-sm lg:w-[10vw] sm:w-[35vw] h-[7vh] font-medium hover:bg-yellow-200 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Delete Club
                             </button>

@@ -19,6 +19,7 @@ const links = [
    { name: 'Miscellaneous', href: '/dashboard/club-directory/miscellaneous'},
 ];
 
+
 export default function NavLinks() {
   const mainLinks = links.slice(0, -2);
   const lastTwoLinks = links.slice(-2); 
@@ -30,12 +31,13 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
-            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 w-[18vw] h-[10vh] text-xl font-medium hover:bg-yellow-200'
+            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 h-[10vh] font-medium text-center hover:bg-yellow-200 md:w-[18vw] md:text-xl sm:w-[80vw] sm:text-md'
           >
-            <p className="hidden md:block">{link.name}</p>
+            <p>{link.name}</p>
           </Link>
         );
       })}
+      
       
       {/*empty space for first column */}
       <div></div>
@@ -46,9 +48,9 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
-            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 w-[18vw] h-[10vh] text-xl font-medium hover:bg-yellow-200'
+            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 h-[10vh] font-medium text-center hover:bg-yellow-200 md:w-[18vw] md:text-xl sm:w-[80vw] sm:text-md'
           >
-            <p className="hidden md:block">{link.name}</p>
+            <p>{link.name}</p>
           </Link>
         );
 

@@ -16,7 +16,7 @@ export function HelpButton() {
         <div>
                 <button
                     type="button"
-                    className="flex absolute top-0 right-[10px] items-center text-center mb-[10px] justify-center rounded-md mt-[15px] bg-yellow-100 w-[5vw] h-[5vh] px-2 text-sm font-medium hover:bg-yellow-200"
+                    className="flex absolute top-0 right-[10px] items-center text-center mb-[10px] justify-center rounded-md mt-[15px] bg-yellow-100 h-[5vh] px-2 text-sm font-medium hover:bg-yellow-200 lg:w-[5vw] md:w-[10vw] sm:w-[20vw]"
                     onClick={toggleHelp}
                 >
                     Help
