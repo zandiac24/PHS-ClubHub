@@ -12,7 +12,7 @@ const config: Config = {
 
       'md': '768px',
 
-      'lg': '1024px',
+      'lg': '1100',
 
       'xl': '1280px',
 
