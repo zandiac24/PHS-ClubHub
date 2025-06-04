@@ -28,7 +28,7 @@ export default async function Page() {
             <div>
             <h1 className="mt-[30px]">Update Club Information</h1>
             <Link
-                className='flex items-center mb-[30px] mt-[30px] ustify-center rounded-md bg-yellow-100 w-[10vw] h-[6vh] text-md text-center font-medium hover:bg-yellow-200'
+                className='flex items-center mb-[30px] mt-[30px] justify-center rounded-md bg-yellow-100 w-[10vw] h-[6vh] text-md text-center font-medium hover:bg-yellow-200'
                 href="/dashboard/update"
             >
                 Update Form
