@@ -1,10 +1,10 @@
 {
   "crons": [{
-    "path": "https://phs-clubhub.vercel.app/api/cron",
+    "path": "./api/cron",
     "schedule": "45 12 13 5 *"
     },
     {
-    "path": "https://phs-clubhub.vercel.app/api/cron",
+    "path": "x/api/cron",
     "schedule": "45 12 13 1 *"
     }  
 ]
