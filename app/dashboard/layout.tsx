@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   style={{objectFit:"cover"}}
                   height={621}
                   width={1920}
-                  className="w-full h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh]"
+                  className="w-full h-[30vh] sm:h-[30vh] md:h-[50vh] lg:h-[60vh]"
                 ></Image>
           <HelpButton />
           </div>        
