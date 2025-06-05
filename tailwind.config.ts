@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-
+//99947d was old yellow 400
 const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -27,7 +27,7 @@ const config: Config = {
           100: '#dbd7bf',
           200: '#bcb7b1',
           300: '#fdfaef',
-          400: '#99947d',
+          400: '#9c9483',
           500: '#e8e3db',
           700: '#33312a',
         }
