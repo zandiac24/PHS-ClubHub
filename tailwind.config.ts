@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss';
-//99947d was old yellow 400
 const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',

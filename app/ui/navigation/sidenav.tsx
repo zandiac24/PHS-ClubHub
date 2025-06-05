@@ -19,9 +19,9 @@ export default function SideNav() {
     }
   }
   return (
-    <div className="flex h-full flex-col px-3 py-0">
+    <div className="flex h-full flex-col md:px-3 py-0">
       <Link
-        className="mb-2 mt-1 flex h-40 items-end justify-start rounded-md bg-yellow-400 p-4 md:min-h-[90px] "
+        className="mb-2 md:mt-1 flex h-40 items-end justify-start rounded-md bg-yellow-400 p-4 md:min-h-[90px] "
         href="/dashboard/club-directory"
       >
         <div className="w-32 text-white md:w-40">

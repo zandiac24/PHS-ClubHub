@@ -20,7 +20,7 @@ export function HelpButton() {
                     onClick={toggleHelp}
                 >
                     Help
-                    <ExclamationCircleIcon className="justify-right mr-[5px] w-[30px] h-[30px] ml-[5px]" />
+                    <ExclamationCircleIcon className="justify-right mr-[5px] w-[40%] h-[75%] ml-[5px]" />
                 </button>
 
                 {isOpen && (
