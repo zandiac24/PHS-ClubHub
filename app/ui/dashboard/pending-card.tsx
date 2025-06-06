@@ -53,7 +53,7 @@ export default function PendingCard({ club }: { club: any }) {
   if (approved) return null;
 
   return (
-    <div className='text-[16px] text-black bg-gradient-to-b from-white via-yellow-300 to-yellow-500 border-4 border-yellow-500 px-7 pt-7 pb-10 rounded-xl overflow-hidden break-words'>
+    <div className='text-[16px] text-black bg-gradient-to-b from-white via-yellow-300 to-yellow-500 border-4 border-yellow-500 px-7 pt-7 pb-10 rounded-xl overflow-hidden break-words lg:mb-[1px] mb-[30px]'>
       <p className="text-[21px] font-semibold text-center">{club.club_name}</p>
       <p className="font-semibold mb-[25px] text-center">{club.category}</p>
       <p className='mb-[20px]'>{club.description}</p>

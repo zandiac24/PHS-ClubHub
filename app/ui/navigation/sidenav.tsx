@@ -19,9 +19,9 @@ export default function SideNav() {
     }
   }
   return (
-    <div className="flex h-full flex-col px-3 py-0 md:px-2">
+    <div className="flex h-full flex-col md:px-3 py-0">
       <Link
-        className="mb-2 flex h-20 items-end justify-start rounded-md bg-yellow-400 p-4 md:h-40"
+        className="mb-2 md:mt-1 flex h-40 items-end justify-start md:rounded-md bg-yellow-400 p-4 md:min-h-[90px] "
         href="/dashboard/club-directory"
       >
         <div className="w-32 text-white md:w-40">
@@ -36,7 +36,7 @@ export default function SideNav() {
        <Link
             key="adminpanel"
             href="/dashboard/approval"
-            className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-100 hover:text-yellow-700 md:flex-none md:justify-start md:p-2 md:px-3"
+            className="flex h-[60px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-100 hover:text-yellow-700 md:flex-none md:justify-start md:p-2 md:px-3"
           >
             <UserCircleIcon className="w-6" />
             <p className="hidden md:block">Admin Panel</p>
@@ -45,7 +45,7 @@ export default function SideNav() {
        <Link
             key="login"
             href="/login"
-            className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-100 hover:text-yellow-700 md:flex-none md:justify-start md:p-2 md:px-3"
+            className="flex h-[60px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-100 hover:text-yellow-700 md:flex-none md:justify-start md:p-2 md:px-3"
           >
             <ArrowRightEndOnRectangleIcon className="w-6" />
             <p className="hidden md:block">Sign In</p>
@@ -53,7 +53,7 @@ export default function SideNav() {
           {/*Logout button*/}
           <button
               onClick={handleLogout}
-              className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-100 hover:text-yellow-700 md:flex-none md:justify-start md:p-2 md:px-3"
+              className="flex h-[60px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-100 hover:text-yellow-700 md:flex-none md:justify-start md:p-2 md:px-3"
             >
               <ArrowLeftStartOnRectangleIcon className="w-6" />
             <div className="hidden md:block">Sign Out</div>
