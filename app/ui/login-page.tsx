@@ -24,6 +24,17 @@ export default function LoginPage() {
       }
     }
   }, [urlToken, typeParam])
+
+  useEffect(() => {
+    const autoUser = document.querySelector<HTMLInputElement>('#username');
+    const autoPass = document.querySelector<HTMLInputElement>('#password');
+    if(autoUser?.value){
+      setUsername(autoUser.value);
+    }
+    if(autoPass?.value){
+      setPassword(autoPass.value);
+    }
+  }, [username, password])
   
 
   //upon submission, attempt to authorize login
