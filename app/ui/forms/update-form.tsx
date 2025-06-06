@@ -103,7 +103,7 @@ const UpdateForm: React.FC = () => {
   };
 
     return (
-        <div className='ml-[35px] mr-35px]'>
+        <div className='ml-[35px] mr-[35px]'>
             <div className='text-[25px] font-semibold mt-[25px]'>Club Information Update Form</div>
             <div className='text-[16px] mt-[10px] mb-[25px]'>
                 <div>Sponsors must fill out the form below if they want to update club information. Only fill out fields you wish to update.</div>

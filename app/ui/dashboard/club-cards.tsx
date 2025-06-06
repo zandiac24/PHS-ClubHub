@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import {fetchClubs} from '@/app/lib/data';
 import Link from 'next/link'
 
+
 type ClubListProps = {
   cat: string;
 };
