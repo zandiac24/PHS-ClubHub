@@ -58,13 +58,12 @@ export default function LoginPage() {
       //if credentials are good, access admin panel
       if (response.ok) {
         const ret = await response.json();
+        await new Promise((r) => setTimeout(r, 300));
         if(ret.type === 'admin'){
             router.push('/dashboard/approval')
-            router.refresh()
         }
         else{
             router.push('/dashboard/update')
-            router.refresh()
         }
       } else {
         const data = await response.json()
