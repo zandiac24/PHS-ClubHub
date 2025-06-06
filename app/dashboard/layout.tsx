@@ -6,11 +6,11 @@ import HelpButton from '@/app/ui/dashboard/help-button';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-      <div className="w-full flex-none md:w-64">
+      <div className="w-full flex-none md:w-64 mx-[0px]">
         <SideNav />
       </div>
       <div className="flex-grow md:overflow-y-auto">
-        <div className="inline block flex-col mt:0px w-[100vw] h-[30vh]">
+        <div className="inline block flex-col w-[100vw] h-[30vh]">
           <div className="relative">
           <Image
                   key="clubhub header"
@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   style={{objectFit:"cover"}}
                   height={621}
                   width={1920}
-                  className="w-[100vw] h-[60vh]"
+                  className="w-full h-[30vh] sm:h-[30vh] md:h-[50vh] lg:h-[60vh]"
                 ></Image>
           <HelpButton />
           </div>        

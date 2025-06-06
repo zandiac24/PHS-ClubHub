@@ -103,7 +103,7 @@ const UpdateForm: React.FC = () => {
   };
 
     return (
-        <div className='ml-[35px]'>
+        <div className='ml-[35px] mr-[35px]'>
             <div className='text-[25px] font-semibold mt-[25px]'>Club Information Update Form</div>
             <div className='text-[16px] mt-[10px] mb-[25px]'>
                 <div>Sponsors must fill out the form below if they want to update club information. Only fill out fields you wish to update.</div>
@@ -151,7 +151,7 @@ const UpdateForm: React.FC = () => {
                         <Field className='mb-[30px]' name="additional_info" placeholder="Additional information (optional)"/>
                         <ErrorMessage name="additional_info" component="div" className="text-red-500"/>
                                      
-                        <div className="w-[60vw] mt-6 flex justify-center">
+                        <div className="md:w-[60vw] sm:w-[80vw] mt-6 flex justify-center">
                             <button type="submit" disabled={isSubmitting} className="flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 px-6 py-4 text-sm font-medium hover:bg-yellow-200">
                                 Submit
                             </button>

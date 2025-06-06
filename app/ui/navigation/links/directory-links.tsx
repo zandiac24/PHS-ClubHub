@@ -1,5 +1,7 @@
 //links for the club directory
+'use client'
 import Link from 'next/link';
+import { useEffect, useState } from "react";
 
 //list of links to categories
 const links = [
@@ -19,9 +21,28 @@ const links = [
    { name: 'Miscellaneous', href: '/dashboard/club-directory/miscellaneous'},
 ];
 
+
+export const useScreenWidth = (): number | undefined => {
+  const [width, setWidth] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const updateWidth = () => setWidth(window.innerWidth);
+
+    updateWidth(); // Set initial width
+    window.addEventListener("resize", updateWidth);
+
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  return width;
+};
+
+
 export default function NavLinks() {
   const mainLinks = links.slice(0, -2);
   const lastTwoLinks = links.slice(-2); 
+  const scrWidth = useScreenWidth();
+
   return (
     <>
       {/*display each category as a formatted button*/}
@@ -30,15 +51,16 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
-            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 w-[18vw] h-[10vh] text-xl font-medium hover:bg-yellow-200'
+            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 h-[10vh] font-medium text-center hover:bg-yellow-200 md:w-[18vw] md:text-xl sm:w-[80vw] sm:text-md'
           >
-            <p className="hidden md:block">{link.name}</p>
+            <p>{link.name}</p>
           </Link>
         );
       })}
       
+      
       {/*empty space for first column */}
-      <div></div>
+      {scrWidth && (scrWidth < 768 || scrWidth >= 1100) && <div></div>}
       
        {/*display last two categories as a formatted button*/}
       {lastTwoLinks.map((link) => {
@@ -46,14 +68,11 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
-            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 w-[18vw] h-[10vh] text-xl font-medium hover:bg-yellow-200'
+            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 h-[10vh] font-medium text-center hover:bg-yellow-200 md:w-[18vw] md:text-xl sm:w-[80vw] sm:text-md'
           >
-            <p className="hidden md:block">{link.name}</p>
+            <p>{link.name}</p>
           </Link>
         );
-
-        {/*empty space for last column*/}
-        <div></div>
       })}
     </>
   );

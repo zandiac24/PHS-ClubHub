@@ -16,11 +16,11 @@ export function HelpButton() {
         <div>
                 <button
                     type="button"
-                    className="flex absolute top-0 right-[10px] items-center text-center mb-[10px] justify-center rounded-md mt-[15px] bg-yellow-100 w-[5vw] h-[5vh] px-2 text-sm font-medium hover:bg-yellow-200"
+                    className="flex absolute top-0 right-[10px] items-center text-center mb-[10px] justify-center rounded-md mt-[15px] bg-yellow-100 h-[5vh] px-2 text-sm font-medium hover:bg-yellow-200 lg:w-[5vw] md:w-[10vw] sm:w-[20vw]"
                     onClick={toggleHelp}
                 >
                     Help
-                    <ExclamationCircleIcon className="justify-right mr-[5px] w-[30px] h-[30px] ml-[5px]" />
+                    <ExclamationCircleIcon className="justify-right mr-[5px] w-[40%] h-[75%] ml-[5px]" />
                 </button>
 
                 {isOpen && (

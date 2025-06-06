@@ -22,7 +22,7 @@ export function ClearRoster() {
   return (
     <div>
       <h1 className="mt-[30px]">Clear Student Roster (End of Year)</h1>
-      <button onClick={deleteRoster} className='flex items-center mb-[30px] mt-[30px] justify-center rounded-md bg-yellow-100 w-[10vw] h-[6vh] text-md font-medium hover:bg-yellow-200'>
+      <button onClick={deleteRoster} className='flex items-center mb-[30px] mt-[30px] justify-center rounded-md bg-yellow-100 lg:w-[10vw] lg:text-md sm:w-[35vw] sm:text-md h-[6vh] font-medium hover:bg-yellow-200'>
         Clear Roster
       </button>
     </div>

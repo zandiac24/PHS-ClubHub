@@ -98,7 +98,7 @@ const RegForm: React.FC = () => {
                         <ClubDropdown ref={dropdownRef} onChange={(club) => setFieldValue("club", club)}/>
                         <ErrorMessage name="club" component="div" className="text-red-500"/>
                                      
-                        <div className="w-[60vw] mt-6 flex justify-center">
+                        <div className="md:w-[60vw] sm:w-[80vw] mt-6 flex justify-center">
                             <button type="submit" disabled={isSubmitting} className="flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 px-6 py-4 text-sm font-medium hover:bg-yellow-200">
                                 Submit
                             </button>
