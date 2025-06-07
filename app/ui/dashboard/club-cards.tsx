@@ -32,7 +32,7 @@ export default async function ClubList({ cat }: ClubListProps) {
 
                   {/*Meeting Info*/}
                   {club.meeting_days_time && club.meeting_days_time !== 'TBD' && (
-                  <p className="mb-[10px] flex justify-center">
+                  <p className="mb-[10px] flex">
                     <span className="inline-block text-left max-w-[290px]">
                       <b className="font-semibold mr-1">Meetings:</b>
                       {club.meeting_days_time}
@@ -40,7 +40,7 @@ export default async function ClubList({ cat }: ClubListProps) {
                   </p>
                 )}
                 {club.meeting_location && (
-                  <p className="mb-[10px] flex justify-center">
+                  <p className="mb-[10px] flex">
                     <span className="inline-block text-left max-w-[290px]">
                       <b className="font-semibold mr-1">Location:</b>
                       {club.meeting_location}
@@ -49,17 +49,17 @@ export default async function ClubList({ cat }: ClubListProps) {
                 )}
                 
                   {/*Sponsor Info*/}
-                  {club.contactName && <p className='mb-[10px] flex justify-center'><b className='font-semibold mr-[5px]'>Sponsor: </b><Link href={`mailto:${club.contactEmail}`} className="underline decoration-yellow-200">{club.contactName}</Link></p>}
+                  {club.contactName && <p className='mb-[10px] flex'><b className='font-semibold mr-[5px]'>Sponsor: </b><Link href={`mailto:${club.contactEmail}`} className="underline decoration-yellow-200">{club.contactName}</Link></p>}
                   {club.studentName && club.studentEmail && (
-                  <p className="mb-[10px] flex justify-center">
-                    <span className="inline-block text-center max-w-[290px]">
+                  <p className="mb-[10px] flex">
+                    <span className="inline-block text-left max-w-[290px]">
                       <b className="font-semibold mr-1">Student Leader(s): </b>
                       <Link href={`mailto:${club.studentEmail}`} className="underline decoration-yellow-200">{club.studentName}</Link>
                     </span>
                   </p>
                   )}
                   {club.additional_info && (
-                  <p className="mb-[10px] flex justify-center">
+                  <p className="mb-[10px] flex">
                     <span className="inline-block mt-4 text-yellow-700 text-[14px] text-left break-words max-w-full overflow-hidden whitespace-normal w-full">
                       {club.additional_info}
                     </span>

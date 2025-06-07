@@ -14,6 +14,7 @@ const sql = postgres(process.env.POSTGRES_URL!, {
 export async function POST(request: NextRequest) {
         await sql`
             DELETE FROM sponsor_sessions`
+
   //get club information
   const clubList = await fetchInfo();
 
@@ -28,12 +29,14 @@ export async function POST(request: NextRequest) {
   });
 
   //sending emails
+
   const emailJobs = clubList.map(async (club) => {
   try {
     if (!club.contactEmail || !club.contactEmail.includes('@')) {
             console.log(`Skipping invalid email for club ${club.club_name}: ${club.contactEmail}`);
             return;
         }
+
         const token = crypto.randomBytes(32).toString('hex');
         const expiresAt = new Date(Date.now() + (336 * 60 * 60 * 1000));
         
@@ -69,3 +72,4 @@ export async function POST(request: NextRequest) {
   return new Response(JSON.stringify({ message: 'Emails attempted for all clubs!' }), { status: 200 });
 }
   
+

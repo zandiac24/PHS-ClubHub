@@ -51,7 +51,7 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
-            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 h-[10vh] font-medium text-center hover:bg-yellow-200 md:w-[18vw] md:text-xl sm:w-[80vw] sm:text-md'
+            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 h-[7vh] font-medium text-center hover:bg-yellow-200 md:w-[14vw] lg:text-lg sm:w-[80vw] sm:text-md'
           >
             <p>{link.name}</p>
           </Link>
@@ -59,16 +59,16 @@ export default function NavLinks() {
       })}
       
       
-      {/*empty space for first column */}
-      {scrWidth && (scrWidth < 768 || scrWidth >= 1100) && <div></div>}
-      
+      {/*empty space for first column*/}
+      {scrWidth && scrWidth >= 768 && scrWidth < 1100 && <div></div>}
+
        {/*display last two categories as a formatted button*/}
       {lastTwoLinks.map((link) => {
         return (
           <Link
             key={link.name}
             href={link.href}
-            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 h-[10vh] font-medium text-center hover:bg-yellow-200 md:w-[18vw] md:text-xl sm:w-[80vw] sm:text-md'
+            className='flex items-center mb-[30px] justify-center rounded-md bg-yellow-100 h-[7vh] font-medium text-center hover:bg-yellow-200 md:w-[14vw] lg:text-lg sm:w-[80vw] sm:text-md'
           >
             <p>{link.name}</p>
           </Link>

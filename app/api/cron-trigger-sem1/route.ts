@@ -4,12 +4,10 @@ export async function GET(req: NextRequest) {
   const baseUrl = process.env.BASE_URL || 'https://phs-clubhub.vercel.app';
 
   try {
-    const response = await fetch(`${baseUrl}/api/cron`, {
+    const response = await fetch(`${baseUrl}/api/cron-sem1`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // Optional: Add your CRON_SECRET if you uncomment that check
-        // 'Authorization': `Bearer ${process.env.CRON_SECRET}`,
       },
     });
 

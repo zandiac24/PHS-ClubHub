@@ -50,14 +50,14 @@ export default function SideNav() {
             <ArrowRightEndOnRectangleIcon className="w-6" />
             <p className="hidden md:block">Sign In</p>
           </Link>
-          {/*Logout button*/}
-          <button
+        {/*Logout button*/}
+        <button
               onClick={handleLogout}
               className="flex h-[60px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-100 hover:text-yellow-700 md:flex-none md:justify-start md:p-2 md:px-3"
             >
               <ArrowLeftStartOnRectangleIcon className="w-6" />
             <div className="hidden md:block">Sign Out</div>
-            </button>
+          </button>
       </div>
     </div>
   );
