@@ -83,7 +83,7 @@ jobs:
           fi
           
           # Extract HTTP code and body
-          http_code=$(echo "$response" | grep -o '[0-9]\{3\} | tail -1)
+          http_code=$(echo "$response" | grep -o '[0-9]\{3\}' | tail -1)
           body=$(echo "$response" | sed '$d')
           
           echo "HTTP Status: $http_code"
