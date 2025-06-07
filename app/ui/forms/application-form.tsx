@@ -148,6 +148,7 @@ const AppForm: React.FC = () => {
                         <ErrorMessage name="studentName" component="div" className="text-red-500"/>
                         
                         <h1>Student Email*</h1>
+                        <p className="mt-[5px]">If there are multiple, please seperate them using commas.</p>
                         <Field name="studentEmail" placeholder="Enter your email (personal or MCPS)"/>
                         <ErrorMessage name="studentEmail" component="div" className="text-red-500"/>
                         
