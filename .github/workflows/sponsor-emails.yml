@@ -1,53 +1,96 @@
-name: Send Sponsor Renewal Emails
+# .github/workflows/test-sponsor-emails.yml
+name: Test Sponsor Emails (Sem1 Only)
 
 on:
-  schedule:
-    # January 13th at 12:45 PM UTC (sem1)
-    - cron: '45 12 13 1 *'
-    # May 13th at 12:45 PM UTC (sem2) 
-    - cron: '45 12 13 5 *'
-  workflow_dispatch: # Allows manual triggering for testing
+  workflow_dispatch: # Only manual triggering
+    inputs:
+      dry_run:
+        description: 'dry run'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+        - 'true'
+        - 'false'
 
 jobs:
-  send-emails:
+  test-emails:
     runs-on: ubuntu-latest
-    timeout-minutes: 30 # Generous timeout for email sending
+    timeout-minutes: 30
     
     steps:
-      - name: Determine semester
-        id: semester
-        run: |
-          MONTH=$(date +%m)
-          if [ "$MONTH" == "01" ]; then
-            echo "semester=sem1" >> $GITHUB_OUTPUT
-          elif [ "$MONTH" == "05" ]; then
-            echo "semester=sem2" >> $GITHUB_OUTPUT
-          else
-            # For manual runs, default to sem1
-            echo "semester=sem1" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Send renewal emails
+      - name: Debug environment variables
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
-          ENDPOINT="${BASE_URL}/api/cron-trigger-${{ steps.semester.outputs.semester }}"
+          echo "🔍 Debugging environment..."
+          echo "BASE_URL is set: $([ -n "$BASE_URL" ] && echo "YES" || echo "NO")"
+          echo "CRON_SECRET is set: $([ -n "$CRON_SECRET" ] && echo "YES" || echo "NO")"
+          if [ -n "$BASE_URL" ]; then
+            echo "BASE_URL value: $BASE_URL"
+          else
+            echo "❌ BASE_URL is not set!"
+            exit 1
+          fi
           
-          response=$(curl -s -w "\n%{http_code}" \
+      - name: Test semester 1 email sending
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          echo "🧪 Testing semester 1 email workflow..."
+          echo "Dry run mode: $DRY_RUN"
+          
+          # Validate environment variables
+          if [ -z "$BASE_URL" ]; then
+            echo "❌ BASE_URL environment variable is not set"
+            exit 1
+          fi
+          
+          if [ -z "$CRON_SECRET" ]; then
+            echo "❌ CRON_SECRET environment variable is not set"
+            exit 1
+          fi
+          
+          # Clean up BASE_URL (remove trailing slash if present)
+          BASE_URL_CLEAN=$(echo "$BASE_URL" | sed 's/\/$//g')
+          ENDPOINT="${BASE_URL_CLEAN}/api/cron-trigger-sem1"
+          echo "🎯 Target endpoint: $ENDPOINT"
+          
+          if [ "$DRY_RUN" == "true" ]; then
+            echo "🔍 DRY RUN: Would call $ENDPOINT"
+            echo "✅ Dry run completed - no emails sent"
+            exit 0
+          fi
+          
+          echo "📧 Sending actual emails..."
+          
+          # More verbose curl with better error handling and follow redirects
+          response=$(curl -L -v -s -w "\n%{http_code}" \
             -X GET \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $CRON_SECRET" \
-            "$ENDPOINT")
+            "$ENDPOINT" 2>&1)
           
-          http_code=$(echo "$response" | tail -n1)
-          body=$(echo "$response" | head -n -1)
+          curl_exit_code=$?
+          
+          if [ $curl_exit_code -ne 0 ]; then
+            echo "❌ Curl failed with exit code: $curl_exit_code"
+            echo "Response: $response"
+            exit 1
+          fi
+          
+          # Extract HTTP code and body
+          http_code=$(echo "$response" | grep -o '[0-9]\{3\} | tail -1)
+          body=$(echo "$response" | sed '$d')
           
           echo "HTTP Status: $http_code"
-          echo "Response: $body"
+          echo "Response Body: $body"
           
-          if [ "$http_code" -ne 200 ]; then
-            echo "❌ Failed to send emails"
+          if [ "$http_code" != "200" ]; then
+            echo "❌ Failed to send emails (HTTP $http_code)"
             exit 1
           else
             echo "✅ Emails sent successfully"
