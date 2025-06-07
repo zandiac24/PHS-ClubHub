@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         subject: 'Club Renewal',
         html:  `
         <div>    
-        <p>Good morning. We're reviewing the club lists and want to see how things are going and to check on the the status of your club.</p>
+        <p>Good morning. We're reviewing the club lists and want to see how things are going and to check on the the status of your club, ${club.club_name}.</p>
         <ol>
             <li>Please use <a href=${loginUrl}>this form</a> to let us know if your club is going to continue next year. The link will expire in 14 days.</li>
             <li>Review the current details about your club at the <a href=${directoryUrl}>Poolesville Club Hub</a>, and use the form linked above to update necessary changes to your club - student leader, meeting details, sponsor, etc.</li>
