@@ -1,0 +1,54 @@
+name: Send Sponsor Renewal Emails
+
+on:
+  schedule:
+    # January 13th at 12:45 PM UTC (sem1)
+    - cron: '45 12 13 1 *'
+    # May 13th at 12:45 PM UTC (sem2) 
+    - cron: '45 12 13 5 *'
+  workflow_dispatch: # Allows manual triggering for testing
+
+jobs:
+  send-emails:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30 # Generous timeout for email sending
+    
+    steps:
+      - name: Determine semester
+        id: semester
+        run: |
+          MONTH=$(date +%m)
+          if [ "$MONTH" == "01" ]; then
+            echo "semester=sem1" >> $GITHUB_OUTPUT
+          elif [ "$MONTH" == "05" ]; then
+            echo "semester=sem2" >> $GITHUB_OUTPUT
+          else
+            # For manual runs, default to sem1
+            echo "semester=sem1" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send renewal emails
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          ENDPOINT="${BASE_URL}/api/cron-trigger-${{ steps.semester.outputs.semester }}"
+          
+          response=$(curl -s -w "\n%{http_code}" \
+            -X GET \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$ENDPOINT")
+          
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n -1)
+          
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+          
+          if [ "$http_code" -ne 200 ]; then
+            echo "❌ Failed to send emails"
+            exit 1
+          else
+            echo "✅ Emails sent successfully"
+          fi

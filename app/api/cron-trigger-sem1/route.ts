@@ -1,6 +1,13 @@
 import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
+  const authHeader = req.headers.get('authorization');
+  const expectedAuth = `Bearer ${process.env.CRON_SECRET}`;
+  
+  if (!authHeader || authHeader !== expectedAuth) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+  }
+
   const baseUrl = process.env.BASE_URL || 'https://phs-clubhub.vercel.app';
 
   try {
