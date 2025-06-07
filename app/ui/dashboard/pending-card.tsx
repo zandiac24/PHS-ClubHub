@@ -59,7 +59,7 @@ export default function PendingCard({ club }: { club: any }) {
       <p className='mb-[20px]'>{club.description}</p>
 
       {club.meeting_days_time && club.meeting_days_time !== 'TBD' && (
-        <p className="mb-[10px] flex justify-center">
+        <p className="mb-[10px] flex">
           <span className="inline-block text-left max-w-[290px]">
             <b className="font-semibold mr-1">Meetings:</b> {club.meeting_days_time}
           </span>
@@ -67,7 +67,7 @@ export default function PendingCard({ club }: { club: any }) {
       )}
 
       {club.meeting_location && (
-        <p className="mb-[10px] flex justify-center">
+        <p className="mb-[10px] flex">
           <span className="inline-block text-left max-w-[290px]">
             <b className="font-semibold mr-1">Location:</b> {club.meeting_location}
           </span>
@@ -75,7 +75,7 @@ export default function PendingCard({ club }: { club: any }) {
       )}
 
       {club.contactName && (
-        <p className='mb-[10px] flex justify-center'>
+        <p className='mb-[10px] flex'>
           <b className='font-semibold mr-[5px]'>Sponsor: </b>
           <Link href={`mailto:${club.contactEmail}`} className="underline decoration-yellow-200">
             {club.contactName}
@@ -84,8 +84,8 @@ export default function PendingCard({ club }: { club: any }) {
       )}
 
       {club.studentName && club.studentEmail && (
-        <p className="mb-[10px] flex justify-center">
-          <span className="inline-block text-center max-w-[290px]">
+        <p className="mb-[10px] flex">
+          <span className="inline-block text-left max-w-[290px]">
             <b className="font-semibold mr-1">Student Leader(s): </b>
             <Link href={`mailto:${club.studentEmail}`} className="underline decoration-yellow-200">
               {club.studentName}
@@ -95,7 +95,7 @@ export default function PendingCard({ club }: { club: any }) {
       )}
 
       {club.additional_info && (
-        <p className="mb-[10px] flex justify-center">
+        <p className="mb-[10px] flex">
           <span className="inline-block mt-4 text-yellow-700 text-[14px] text-left break-words max-w-full overflow-hidden whitespace-normal w-full">
             Additional Information: {club.additional_info}
           </span>
