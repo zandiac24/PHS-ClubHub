@@ -8,7 +8,7 @@ export default function TestEmail() {
   const testEmail = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/cron', {
+      const response = await fetch('/api/cron-trigger-sem1', {
         method: 'POST',
       });
       const data = await response.json();

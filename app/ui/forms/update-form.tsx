@@ -124,6 +124,7 @@ const UpdateForm: React.FC = () => {
                         <ErrorMessage name="studentName" component="div" className="text-red-500"/>
                         
                         <h1>Student Leader Email</h1>
+                        <p className="mt-[5px]">If there are multiple, please seperate them using commas.</p>
                         <Field name="studentEmail" placeholder="Enter the student leader's email"/>
                         <ErrorMessage name="studentEmail" component="div" className="text-red-500"/>
 

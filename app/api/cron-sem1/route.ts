@@ -14,12 +14,7 @@ const sql = postgres(process.env.POSTGRES_URL!, {
 export async function POST(request: NextRequest) {
         await sql`
             DELETE FROM sponsor_sessions`
-//   const authHeader = request.headers.get('authorization');
-//   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-//     return new Response('Unauthorized', {
-//       status: 401,
-//     });
-//   }
+
   //get club information
   const clubList = await fetchInfo();
 
@@ -34,8 +29,14 @@ export async function POST(request: NextRequest) {
   });
 
   //sending emails
+
+  const emailJobs = clubList.map(async (club) => {
   try {
-    for (const club of clubList) {
+    if (!club.contactEmail || !club.contactEmail.includes('@')) {
+            console.log(`Skipping invalid email for club ${club.club_name}: ${club.contactEmail}`);
+            return;
+        }
+
         const token = crypto.randomBytes(32).toString('hex');
         const expiresAt = new Date(Date.now() + (336 * 60 * 60 * 1000));
         
@@ -46,11 +47,6 @@ export async function POST(request: NextRequest) {
         const loginUrl = `${process.env.BASE_URL}/login?token=${token}`;
         const directoryUrl = `${process.env.BASE_URL}/dashboard/club-directory`;
 
-        if (!club.contactEmail || !club.contactEmail.includes('@')) {
-            console.log(`Skipping invalid email for club ${club.club_name}: ${club.contactEmail}`);
-            continue;
-        }
-    console.log('Sending email to admin:', club.contactEmail);
     const mailOptions = {
         from: process.env.GMAIL_USERNAME,
         to: club.contactEmail,
@@ -68,12 +64,12 @@ export async function POST(request: NextRequest) {
     };
     await transporter.sendMail(mailOptions);
     console.log('Email sent to admin:', club.contactEmail);
-    await new Promise(resolve => setTimeout(resolve, 1000));    
-}
-
-    return new Response(JSON.stringify({ message: 'Email sent successfully!' }), { status: 200 });
-  } catch (error) {
+    } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ message: 'Failed to send email.' }), { status: 500 });
-  }
+   }
+});
+  await Promise.allSettled(emailJobs);
+  return new Response(JSON.stringify({ message: 'Emails attempted for all clubs!' }), { status: 200 });
 }
+  
+
