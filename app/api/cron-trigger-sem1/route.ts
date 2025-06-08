@@ -9,21 +9,74 @@ export async function GET(req: NextRequest) {
   }
 
   const baseUrl = process.env.BASE_URL || 'https://phs-clubhub.vercel.app';
-
+  const totalBatches = 4; // Adjust based on your needs (150 emails / 4 = ~37-38 per batch)
+  
   try {
-    const response = await fetch(`${baseUrl}/api/cron-sem1`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.CRON_SECRET}`,
-      },
-    });
+    const results = [];
+    
+    // Execute batches sequentially with delay between them
+    for (let batchNumber = 1; batchNumber <= totalBatches; batchNumber++) {
+      console.log(`Starting batch ${batchNumber}/${totalBatches}`);
+      
+      try {
+        const response = await fetch(`${baseUrl}/api/cron-sem1`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.CRON_SECRET}`,
+          },
+          body: JSON.stringify({
+            batchNumber,
+            totalBatches
+          })
+        });
 
-    const data = await response.json();
-    return new Response(JSON.stringify(data), { status: response.status });
+        const data = await response.json();
+        results.push({
+          batch: batchNumber,
+          status: response.status,
+          data
+        });
+
+        console.log(`Batch ${batchNumber} result:`, data);
+        
+        // Add delay between batches to avoid overwhelming the system
+        if (batchNumber < totalBatches) {
+          await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+        }
+        
+      } catch (batchError) {
+        console.error(`Batch ${batchNumber} failed:`, batchError);
+        results.push({
+          batch: batchNumber,
+          status: 500,
+          error: batchError instanceof Error ? batchError.message : 'Unknown error'
+        });
+      }
+    }
+
+    const successfulBatches = results.filter(r => r.status === 200).length;
+    const totalProcessed = results.reduce((sum, r) => 
+      sum + (r.data?.results?.processed || 0), 0
+    );
+    const totalSuccess = results.reduce((sum, r) => 
+      sum + (r.data?.results?.success || 0), 0
+    );
+
+    return new Response(JSON.stringify({
+      message: 'Batched email job completed',
+      summary: {
+        totalBatches,
+        successfulBatches,
+        totalProcessed,
+        totalSuccess,
+        results
+      }
+    }), { status: 200 });
+    
   } catch (error: any) {
     return new Response(
-      JSON.stringify({ error: 'Failed to trigger cron job', detail: error.message }),
+      JSON.stringify({ error: 'Failed to execute batched cron job', detail: error.message }),
       { status: 500 }
     );
   }

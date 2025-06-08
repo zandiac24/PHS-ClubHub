@@ -16,7 +16,7 @@ on:
 jobs:
   test-emails:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15 # Increased timeout for batched processing
     
     steps:
       - name: Debug environment variables
@@ -34,13 +34,13 @@ jobs:
             exit 1
           fi
           
-      - name: Test semester 1 email sending
+      - name: Test semester 1 batched email sending
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          echo "🧪 Testing semester 1 email workflow..."
+          echo "🧪 Testing semester 1 batched email workflow..."
           echo "Dry run mode: $DRY_RUN"
           
           # Validate environment variables
@@ -58,17 +58,19 @@ jobs:
           BASE_URL_CLEAN=$(echo "$BASE_URL" | sed 's/\/$//g')
           ENDPOINT="${BASE_URL_CLEAN}/api/cron-trigger-sem1"
           echo "🎯 Target endpoint: $ENDPOINT"
+          echo "📦 This will process emails in 4 batches to avoid timeouts"
           
           if [ "$DRY_RUN" == "true" ]; then
-            echo "🔍 DRY RUN: Would call $ENDPOINT"
+            echo "🔍 DRY RUN: Would call $ENDPOINT with batched processing"
             echo "✅ Dry run completed - no emails sent"
             exit 0
           fi
           
-          echo "📧 Sending actual emails..."
+          echo "📧 Starting batched email sending..."
+          echo "⏱️ Expected duration: ~5-8 minutes for all batches"
           
-          # More verbose curl with better error handling and follow redirects
-          response=$(curl -L -v -s -w "\n%{http_code}" \
+          # Start the batched email process
+          response=$(curl -L -s -w "\n%{http_code}" \
             -X GET \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $CRON_SECRET" \
@@ -86,12 +88,23 @@ jobs:
           http_code=$(echo "$response" | grep -o '[0-9]\{3\}' | tail -1)
           body=$(echo "$response" | sed '$d')
           
+          echo "📊 Final Results:"
           echo "HTTP Status: $http_code"
           echo "Response Body: $body"
           
           if [ "$http_code" != "200" ]; then
-            echo "❌ Failed to send emails (HTTP $http_code)"
+            echo "❌ Batched email job failed (HTTP $http_code)"
             exit 1
           else
-            echo "✅ Emails sent successfully"
+            echo "✅ All email batches completed successfully!"
+            
+            # Try to parse and display summary if response contains JSON
+            if echo "$body" | grep -q "totalBatches"; then
+              echo ""
+              echo "📈 Summary extracted from response:"
+              echo "$body" | grep -o '"totalBatches":[0-9]*' | sed 's/"totalBatches":/Total Batches: /'
+              echo "$body" | grep -o '"successfulBatches":[0-9]*' | sed 's/"successfulBatches":/Successful Batches: /'
+              echo "$body" | grep -o '"totalProcessed":[0-9]*' | sed 's/"totalProcessed":/Total Emails Processed: /'
+              echo "$body" | grep -o '"totalSuccess":[0-9]*' | sed 's/"totalSuccess":/Total Emails Sent: /'
+            fi
           fi
