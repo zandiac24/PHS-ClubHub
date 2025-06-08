@@ -1,11 +1,25 @@
-# .github/workflows/test-sponsor-emails.yml
-name: Test Sponsor Emails (Sem1 Only)
+# .github/workflows/sponsor-emails.yml
+name: Sponsor Emails
 
 on:
-  workflow_dispatch: # Only manual triggering
+  schedule:
+    #semester 1: every January 13th at 7:45 AM EST
+    - cron: '45 12 13 1 *'
+    #semester 2: every May 13th at 7:45 AM EST
+    - cron: '45 11 13 5 *'
+  
+  workflow_dispatch:
     inputs:
+      semester:
+        description: 'Which semester to run'
+        required: true
+        default: '1'
+        type: choice
+        options:
+        - '1'
+        - '2'
       dry_run:
-        description: 'dry run'
+        description: 'Dry run mode'
         required: false
         default: 'false'
         type: choice
@@ -14,60 +28,110 @@ on:
         - 'false'
 
 jobs:
-  test-emails:
+  sponsor-emails:
     runs-on: ubuntu-latest
-    timeout-minutes: 15 # Increased timeout for batched processing
+    timeout-minutes: 15
     
     steps:
+      - name: Determine semester and endpoint
+        id: setup
+        env:
+          MANUAL_SEMESTER: ${{ github.event.inputs.semester }}
+        run: |
+          echo "Determining which semester to run..."
+          
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            SEMESTER="$MANUAL_SEMESTER"
+            echo "Manual trigger: Running semester $SEMESTER"
+          else
+            CURRENT_MONTH=$(date +%m)
+            if [ "$CURRENT_MONTH" = "01" ]; then
+              SEMESTER="1"
+              echo "January schedule: Running semester 1"
+            elif [ "$CURRENT_MONTH" = "05" ]; then
+              SEMESTER="2"
+              echo "May schedule: Running semester 2"
+            else
+              echo "Unexpected month for scheduled run: $CURRENT_MONTH"
+              exit 1
+            fi
+          fi
+          
+          # Set endpoint based on semester
+          if [ "$SEMESTER" = "1" ]; then
+            ENDPOINT_PATH="/api/cron-trigger-sem1"
+            SEMESTER_NAME="Semester 1"
+          elif [ "$SEMESTER" = "2" ]; then
+            ENDPOINT_PATH="/api/cron-trigger-sem2"
+            SEMESTER_NAME="Semester 2"
+          else
+            echo "Invalid semester: $SEMESTER"
+            exit 1
+          fi
+          
+          echo "semester=$SEMESTER" >> $GITHUB_OUTPUT
+          echo "endpoint_path=$ENDPOINT_PATH" >> $GITHUB_OUTPUT
+          echo "semester_name=$SEMESTER_NAME" >> $GITHUB_OUTPUT
+          
+          echo "Setup complete:"
+          echo "   Semester: $SEMESTER"
+          echo "   Endpoint: $ENDPOINT_PATH"
+          echo "   Name: $SEMESTER_NAME"
+
       - name: Debug environment variables
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
-          echo "🔍 Debugging environment..."
+          echo "Debugging environment..."
           echo "BASE_URL is set: $([ -n "$BASE_URL" ] && echo "YES" || echo "NO")"
           echo "CRON_SECRET is set: $([ -n "$CRON_SECRET" ] && echo "YES" || echo "NO")"
           if [ -n "$BASE_URL" ]; then
             echo "BASE_URL value: $BASE_URL"
           else
-            echo "❌ BASE_URL is not set!"
+            echo "BASE_URL is not set!"
             exit 1
           fi
           
-      - name: Test semester 1 batched email sending
+      - name: Send semester emails
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
+          SEMESTER: ${{ steps.setup.outputs.semester }}
+          ENDPOINT_PATH: ${{ steps.setup.outputs.endpoint_path }}
+          SEMESTER_NAME: ${{ steps.setup.outputs.semester_name }}
         run: |
-          echo "🧪 Testing semester 1 batched email workflow..."
-          echo "Dry run mode: $DRY_RUN"
+          echo "Running $SEMESTER_NAME batched email workflow..."
+          echo "Current date: $(date)"
+          echo "Current timezone: $(date +%Z)"
+          echo "Dry run mode: ${DRY_RUN:-false}"
           
           # Validate environment variables
           if [ -z "$BASE_URL" ]; then
-            echo "❌ BASE_URL environment variable is not set"
+            echo "BASE_URL environment variable is not set"
             exit 1
           fi
           
           if [ -z "$CRON_SECRET" ]; then
-            echo "❌ CRON_SECRET environment variable is not set"
+            echo "CRON_SECRET environment variable is not set"
             exit 1
           fi
           
           # Clean up BASE_URL (remove trailing slash if present)
           BASE_URL_CLEAN=$(echo "$BASE_URL" | sed 's/\/$//g')
-          ENDPOINT="${BASE_URL_CLEAN}/api/cron-trigger-sem1"
-          echo "🎯 Target endpoint: $ENDPOINT"
-          echo "📦 This will process emails in 4 batches to avoid timeouts"
+          ENDPOINT="${BASE_URL_CLEAN}${ENDPOINT_PATH}"
+          echo "Target endpoint: $ENDPOINT"
+          echo "This will process emails in 4 batches to avoid timeouts"
           
           if [ "$DRY_RUN" == "true" ]; then
-            echo "🔍 DRY RUN: Would call $ENDPOINT with batched processing"
-            echo "✅ Dry run completed - no emails sent"
+            echo "DRY RUN: Would call $ENDPOINT with batched processing"
+            echo "Dry run completed - no emails sent"
             exit 0
           fi
           
-          echo "📧 Starting batched email sending..."
-          echo "⏱️ Expected duration: ~5-8 minutes for all batches"
+          echo "Starting batched email sending for $SEMESTER_NAME..."
+          echo "Expected duration: ~5-8 minutes for all batches"
           
           # Start the batched email process
           response=$(curl -L -s -w "\n%{http_code}" \
@@ -79,7 +143,7 @@ jobs:
           curl_exit_code=$?
           
           if [ $curl_exit_code -ne 0 ]; then
-            echo "❌ Curl failed with exit code: $curl_exit_code"
+            echo "Curl failed with exit code: $curl_exit_code"
             echo "Response: $response"
             exit 1
           fi
@@ -88,23 +152,28 @@ jobs:
           http_code=$(echo "$response" | grep -o '[0-9]\{3\}' | tail -1)
           body=$(echo "$response" | sed '$d')
           
-          echo "📊 Final Results:"
+          echo "Final Results for $SEMESTER_NAME:"
           echo "HTTP Status: $http_code"
           echo "Response Body: $body"
           
           if [ "$http_code" != "200" ]; then
-            echo "❌ Batched email job failed (HTTP $http_code)"
+            echo "$SEMESTER_NAME batched email job failed (HTTP $http_code)"
             exit 1
           else
-            echo "✅ All email batches completed successfully!"
+            echo "All $SEMESTER_NAME email batches completed successfully!"
             
             # Try to parse and display summary if response contains JSON
             if echo "$body" | grep -q "totalBatches"; then
               echo ""
-              echo "📈 Summary extracted from response:"
+              echo "Summary extracted from response:"
               echo "$body" | grep -o '"totalBatches":[0-9]*' | sed 's/"totalBatches":/Total Batches: /'
               echo "$body" | grep -o '"successfulBatches":[0-9]*' | sed 's/"successfulBatches":/Successful Batches: /'
               echo "$body" | grep -o '"totalProcessed":[0-9]*' | sed 's/"totalProcessed":/Total Emails Processed: /'
               echo "$body" | grep -o '"totalSuccess":[0-9]*' | sed 's/"totalSuccess":/Total Emails Sent: /'
             fi
+            
+            # Add completion notification
+            echo ""
+            echo "$SEMESTER_NAME email campaign completed at $(date)"
+            echo "Check your email logs for detailed delivery status"
           fi

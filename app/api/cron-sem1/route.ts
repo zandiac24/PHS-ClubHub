@@ -1,3 +1,4 @@
+//semester 1 emails
 import type { NextRequest } from 'next/server';
 import { fetchInfo } from '@/app/lib/sponsor-emails';
 import nodemailer from 'nodemailer';
@@ -20,19 +21,19 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Parse batch parameters from request body
+    //parse batch parameters from request body
     const body = await request.json().catch(() => ({}));
     const { batchNumber = 1, totalBatches = 4 } = body;
 
     console.log(`Processing batch ${batchNumber}/${totalBatches}`);
 
-    // Fetch all clubs
+    //fetch all clubs
     const clubList = await fetchInfo();
     const validClubs = clubList.filter(club => 
       club.contactEmail && club.contactEmail.includes('@')
     );
 
-    // Calculate batch size and range
+    //calculate batch size and range
     const batchSize = Math.ceil(validClubs.length / totalBatches);
     const startIndex = (batchNumber - 1) * batchSize;
     const endIndex = Math.min(startIndex + batchSize, validClubs.length);
@@ -40,13 +41,13 @@ export async function POST(request: NextRequest) {
 
     console.log(`Batch ${batchNumber}: Processing ${batchClubs.length} clubs (indices ${startIndex}-${endIndex-1})`);
 
-    // If this is the first batch, clear sessions
+    //if this is the first batch, clear sessions
     if (batchNumber === 1) {
       await sql`DELETE FROM sponsor_sessions`;
       console.log('Cleared sponsor_sessions table');
     }
 
-    // Generate tokens and email content for this batch
+    //generate tokens and email content for this batch
     const emailJobs = batchClubs.map(club => {
       const token = crypto.randomBytes(32).toString('hex');
       const expiresAt = new Date(Date.now() + (336 * 60 * 60 * 1000));
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
       };
     });
 
-    // Insert database records for this batch
+    //insert database records for this batch
     if (emailJobs.length > 0) {
       const dbPromises = emailJobs.map(job => 
         sql`
@@ -88,7 +89,7 @@ export async function POST(request: NextRequest) {
       console.log(`Inserted ${emailJobs.length} database records`);
     }
 
-    // Send emails for this batch
+    //send emails for this batch
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -97,30 +98,30 @@ export async function POST(request: NextRequest) {
         pass: process.env.GMAIL_PASSWORD,
       },
       pool: true,
-      maxConnections: 5, // Reduced for smaller batches
+      maxConnections: 5,
       maxMessages: 100,
-      rateLimit: 10, // More conservative for reliability
+      rateLimit: 10,
     });
 
     const results = { success: 0, failed: 0 };
     
-    // Send emails with staggered timing
+    //send emails with staggered timing
     const emailPromises = emailJobs.map(async (job, index) => {
       try {
-        // Stagger emails to avoid rate limits
+        //stagger emails to avoid rate limits
         await new Promise(resolve => setTimeout(resolve, index * 200)); // 200ms stagger
         
         await transporter.sendMail(job.mailOptions);
         results.success++;
-        console.log(`✅ Sent email to ${job.club.contactEmail}`);
+        console.log(`Sent email to ${job.club.contactEmail}`);
       } catch (error) {
         results.failed++;
-        console.error(`❌ Failed to send email to ${job.club.contactEmail}:`, error);
+        console.error(`Failed to send email to ${job.club.contactEmail}:`, error);
       }
     });
 
-    // Wait for all emails with timeout
-    const emailTimeout = 45000; // 45 seconds
+    //wait for all emails with timeout
+    const emailTimeout = 45000;
     const timeoutPromise = new Promise((_, reject) => 
       setTimeout(() => reject(new Error('Email sending timeout')), emailTimeout)
     );

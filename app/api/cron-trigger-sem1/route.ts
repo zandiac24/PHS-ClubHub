@@ -1,3 +1,4 @@
+//trigger sem1 emails
 import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -9,12 +10,12 @@ export async function GET(req: NextRequest) {
   }
 
   const baseUrl = process.env.BASE_URL || 'https://phs-clubhub.vercel.app';
-  const totalBatches = 4; // Adjust based on your needs (150 emails / 4 = ~37-38 per batch)
+  const totalBatches = 4; 
   
   try {
     const results = [];
     
-    // Execute batches sequentially with delay between them
+    //execute batches sequentially with delay between them
     for (let batchNumber = 1; batchNumber <= totalBatches; batchNumber++) {
       console.log(`Starting batch ${batchNumber}/${totalBatches}`);
       
@@ -40,9 +41,9 @@ export async function GET(req: NextRequest) {
 
         console.log(`Batch ${batchNumber} result:`, data);
         
-        // Add delay between batches to avoid overwhelming the system
+        //add delay between batches to avoid overwhelming the system
         if (batchNumber < totalBatches) {
-          await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay
+          await new Promise(resolve => setTimeout(resolve, 2000));
         }
         
       } catch (batchError) {
