@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         mailOptions: {
           from: process.env.GMAIL_USERNAME,
           to: club.contactEmail,
-          subject: 'Club Renewal - Semester 1',
+          subject: 'Club Renewal - Semester 2',
           html:  `
             <div>    
             <p>Good morning. Thank you for your work with your club, ${club.club_name}, this year. To prepare for next year, we're in the process of updating the club list and details for each club. Please let us know the following details:</p>
