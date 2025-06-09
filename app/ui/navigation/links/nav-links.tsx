@@ -2,13 +2,13 @@
 import {
   UserGroupIcon,
   PlusIcon,
-  ListBulletIcon
+  HomeIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 // list of links to display in the side navigation.
 const links = [
-  { name: 'Club Directory', href: '/dashboard/club-directory', icon: ListBulletIcon},
+  { name: 'Club Directory', href: '/dashboard/club-directory', icon: HomeIcon},
   {
     name: 'Create a Club',
     href: '/dashboard/application',

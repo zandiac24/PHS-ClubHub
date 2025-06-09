@@ -1,11 +1,11 @@
-# .github/workflows/sponsor-emails.yml
+#.github/workflows/sponsor-emails.yml
 name: Sponsor Emails
 
 on:
   schedule:
-    #semester 1: every January 13th at 7:45 AM EST
+    #Semester 1: every January 13th at 7:45 AM EST
     - cron: '45 12 13 1 *'
-    #semester 2: every May 13th at 7:45 AM EST
+    #Semester 2: every May 13th at 7:45 AM EST
     - cron: '45 11 13 5 *'
   
   workflow_dispatch:

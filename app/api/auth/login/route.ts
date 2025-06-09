@@ -13,13 +13,13 @@ export async function POST(request: NextRequest) {
     //parse username and password from json
     const { username, password, token } = await request.json()
 
-    // check credentials against env variables
+    //check credentials against env variables
     if(username && password) {
     if (
       username === process.env.TEACHER_USERNAME &&
       password === process.env.TEACHER_PASSWORD
     ) {
-      // sets an HTTP cookie (teacher-auth) to authenticated
+      //sets an HTTP cookie (teacher-auth) to authenticated
       const cookieStore = await cookies()
       cookieStore.set('teacher-auth', 'authenticated', {
         httpOnly: true,
@@ -52,23 +52,23 @@ export async function POST(request: NextRequest) {
             { status: 401 }
             )
         }
-        if(new Date() > new Date(session.expires_at)) {
-            console.log('expired date')
-            await sql`
-            DELETE FROM sponsor_sessions
-            WHERE token = ${token}`
+        // if(new Date() > new Date(session.expires_at)) {
+        //     console.log('expired date')
+        //     await sql`
+        //     DELETE FROM sponsor_sessions
+        //     WHERE token = ${token}`
 
-            return NextResponse.json(
-            { error: 'Expired token' },
-            { status: 401 }
-            )
-        }
-        if(session.used) {
-            return NextResponse.json(
-            { error: 'Token has already been used.' },
-            { status: 401 }
-            )
-        }
+        //     return NextResponse.json(
+        //     { error: 'Expired token' },
+        //     { status: 401 }
+        //     )
+        // }
+        // if(session.used) {
+        //     return NextResponse.json(
+        //     { error: 'Token has already been used.' },
+        //     { status: 401 }
+        //     )
+        // }
         await sql`
         UPDATE sponsor_sessions
         SET used = true

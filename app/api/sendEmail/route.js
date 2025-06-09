@@ -23,7 +23,21 @@ export async function POST(req) {
       from: process.env.GMAIL_USERNAME,
       to: 'brycefowlkes@gmail.com',
       subject: `New Club Application`,
-      text: `Club Name: ${club_name}  \n\nCategory: ${category} \n\nDescription: ${description} \n\nStudent Name: ${studentName} \n\nStudent Email: ${studentEmail} \n\nSponsor Name: ${contactName}  \n\nSponsor Email: ${contactEmail} \n\nMeeting Days/Times: ${meeting_days_time} \n\nMeeting Location: ${meeting_location} ${additional_info && `\n\nAdditional Information: ${additional_info}`}`,
+      html: `
+            <div>
+              <p>Club Name: ${club_name}</p>
+              <p>Category: ${category}</p>
+              <p>Description: ${description}</p>
+              <p>Student Name: ${studentName}</p>
+              <p>Student Email: ${studentEmail}</p>
+              <p>Sponsor Name: ${contactName}</p>
+              <p>Sponsor Email: ${contactEmail}</p>
+              <p>Meeting Days/Times: ${meeting_days_time}</p>
+              <p>Meeting Location: ${meeting_location}</p>
+              ${additional_info && `<p>Additional Information: ${additional_info}</p>`}
+              <p>Click <a href="https://phs-clubhub.vercel.app/dashboard/approval">here</a> to review pending club details.</p>
+            </div>
+          `,
     });
 
     return new Response(JSON.stringify({ message: 'Email sent successfully!' }), { status: 200 });
